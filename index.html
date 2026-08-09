@@ -125,7 +125,12 @@
 
         document.addEventListener("DOMContentLoaded", () => {
             fetch('data.json')
-                .then(response => response.json())
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                    return response.json();
+                })
                 .then(data => {
                     // 1. Scholar Details
                     if(data.scholar) {
@@ -169,7 +174,7 @@
                             `;
                         });
                     } else {
-                        githubList.innerHTML = '<p class="text-gray-500 italic col-span-2">No public software repositories fetched yet.</p>';
+                        githubList.innerHTML = '<p class="text-gray-500 italic col-span-2">No public software repositories loaded yet.</p>';
                     }
 
                     // 4. Research Projects
@@ -214,6 +219,15 @@
                     } else {
                         teachingList.innerHTML = '<p class="text-gray-500 italic col-span-2">No teaching courses registered.</p>';
                     }
+                })
+                .catch(error => {
+                    console.error("Error loading data.json:", error);
+                    const errorMsg = `<p class="text-red-500 italic">Unable to load data.json (${error.message}). Make sure you are serving the page via a web server (e.g. GitHub Pages or Python http.server) and that data.json is valid JSON.</p>`;
+                    
+                    document.getElementById('publications-list').innerHTML = errorMsg;
+                    document.getElementById('github-list').innerHTML = errorMsg;
+                    document.getElementById('projects-list').innerHTML = errorMsg;
+                    document.getElementById('teaching-list').innerHTML = errorMsg;
                 });
         });
 
@@ -249,7 +263,7 @@
                     `;
                 });
             } else {
-                listContainer.innerHTML = `<p class="text-sm text-gray-400 italic">No publications listed under this category.</p>';
+                listContainer.innerHTML = `<p class="text-sm text-gray-400 italic">No publications listed under this category.</p>`;
             }
         }
     </script>
