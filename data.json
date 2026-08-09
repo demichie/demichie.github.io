@@ -1,31 +1,31 @@
 {
   "scholar": {
     "id": "6ev_1zUAAAAJ",
-    "citations": 0,
-    "hindex": 0,
+    "citations": 52,
+    "hindex": 3,
     "i10index": 0
   },
   "publications": [
     {
-      "title": "Example Academic Paper Title",
-      "year": "2026",
-      "venue": "Journal of Volcanology and Geothermal Research",
-      "citations": 5,
+      "title": "Effusion Rate Evolution During Small‐Volume Basaltic Eruptions: Insights From Numerical Modeling",
+      "year": "2020",
+      "venue": "Journal of Geophysical Research: Solid Earth",
+      "citations": 11,
       "type": "paper"
     },
     {
-      "title": "Example Book Title on Numerical Modeling",
-      "year": "2025",
-      "venue": "Academic Press",
-      "citations": 12,
-      "type": "book"
+      "title": "Reconstructing eruptive source parameters from tephra deposit: a numerical study of medium-sized explosive eruptions at Etna volcano",
+      "year": "2016",
+      "venue": "Bulletin of Volcanology",
+      "citations": 25,
+      "type": "paper"
     },
     {
-      "title": "Example Chapter: Advanced Numerical Integration Methods",
-      "year": "2024",
-      "venue": "Handbook of Computational Science",
-      "citations": 2,
-      "type": "chapter"
+      "title": "Two‐dimensional nonlinear diffusive numerical simulation of geomorphic modifications to cinder cones",
+      "year": "2013",
+      "venue": "Scientific Publication",
+      "citations": 18,
+      "type": "paper"
     }
   ],
   "github_repos": [
