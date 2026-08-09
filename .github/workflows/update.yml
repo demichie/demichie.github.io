@@ -1,33 +1,40 @@
-name: Update Portfolio Data Daily
+name: Update Academic & GitHub Data
 
 on:
   schedule:
-    - cron: '0 2 * * *' # Gira ogni notte alle 02:00 UTC
-  workflow_dispatch: # Ti permette di avviarlo manualmente quando vuoi
+    # Esegue l'aggiornamento automatico ogni notte a mezzanotte UTC
+    - cron: '0 0 * * *'
+  # Permette l'esecuzione manuale dal pannello Actions di GitHub
+  workflow_dispatch:
 
 jobs:
-  build:
+  update-data:
     runs-on: ubuntu-latest
+
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-    - name: Set up Python
-      uses: actions/setup-python@v5
-      with:
-        python-version: '3.x'
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
 
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install scholarly requests
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests beautifulsoup4
 
-    - name: Run update script
-      run: python update_data.py
+      - name: Run data update script
+        env:
+          SCRAPINGBEE_KEY: ${{ secrets.SCRAPINGBEE_KEY }}
+        run: python update_data.py
 
-    - name: Commit and push if data changed
-      run: |
-        git config --global user.name 'github-actions[bot]'
-        git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-        git add data.json
-        git diff --quiet && git diff --staged --quiet || (git commit -m "Daily automated data update" && git push)
+      - name: Commit and push updates
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add data.json
+          # Esegue il commit solo se il file data.json ha subito modifiche reali
+          git diff-index --quiet HEAD || git commit -m "Automated update of publications and GitHub metrics"
+          git push
