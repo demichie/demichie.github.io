@@ -1,64 +1,78 @@
 import json
 import requests
 import sys
+import time
+import random
+from scholarly import scholarly
 
 # --- CONFIGURAZIONE ---
 GITHUB_USERNAME = 'demichie'
-AUTHOR_NAME = "Mattia de' Michieli Vitturi"
+SCHOLAR_ID = '6ev_1zUAAAAJ'
 
-def get_academic_data():
-    print(f"Fetching academic publications for: {AUTHOR_NAME}...")
-    # Interroghiamo l'API di Semantic Scholar
-    search_url = f"https://api.semanticscholar.org/graph/v1/author/search?query={AUTHOR_NAME}&fields=name,citationCount,hIndex,papers.title,papers.year,papers.venue,papers.citationCount"
-    
-    headers = {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'
-    }
-    
+def get_scholar_data():
+    print(f"Fetching Google Scholar data using scholarly for ID: {SCHOLAR_ID}...")
     try:
-        response = requests.get(search_url, headers=headers, timeout=15)
-        if response.status_code == 200:
-            data = response.json()
-            if data.get('data') and len(data['data']) > 0:
-                author_data = data['data'][0] # Prende il profilo autore corrispondente
-                
-                metrics = {
-                    "id": "6ev_1zUAAAAJ",
-                    "citations": author_data.get('citationCount', 0),
-                    "hindex": author_data.get('hIndex', 0),
-                    "i10index": 0
-                }
-                
-                raw_papers = author_data.get('papers', [])
-                
-                # Ordina i paper dal più recente al meno recente
-                raw_papers.sort(key=lambda x: x.get('year') or 0, reverse=True)
-                
-                publications = []
-                for p in raw_papers[:25]: # Prende le prime 25 pubblicazioni recenti
-                    venue = p.get('venue') or ''
-                    v_low = venue.lower()
-                    
-                    pub_type = 'paper'
-                    if 'chapter' in v_low:
-                        pub_type = 'chapter'
-                    elif 'book' in v_low:
-                        pub_type = 'book'
-                        
-                    publications.append({
-                        "title": p.get('title', 'Untitled'),
-                        "year": str(p.get('year', 'N/A')),
-                        "venue": venue if venue else "Scientific Publication",
-                        "citations": p.get('citationCount', 0),
-                        "type": pub_type
-                    })
-                    
-                print(f"Successfully retrieved {len(publications)} publications and {metrics['citations']} citations!")
-                return metrics, publications
-        print(f"Academic API returned status code: {response.status_code}")
-        return None, None
+        # 1. Cerca l'autore tramite ID
+        author = scholarly.search_author_id(SCHOLAR_ID)
+        
+        # 2. Compila solo le sezioni base, indici e la lista delle pubblicazioni
+        # Non facciamo il fill() su ogni singolo paper, così risparmiamo centinaia di chiamate!
+        filled_author = scholarly.fill(author, sections=['basics', 'indices', 'publications'])
+        
+        # 3. Estrazione indici bibliometrici principali
+        metrics = {
+            "id": SCHOLAR_ID,
+            "citations": filled_author.get('citedby', 0),
+            "hindex": filled_author.get('hindex', 0),
+            "i10index": filled_author.get('i10index', 0)
+        }
+        
+        # 4. Estrazione e ordinamento pubblicazioni
+        raw_pubs = filled_author.get('publications', [])
+        print(f"Found {len(raw_pubs)} total publications. Sorting and selecting top 20 recent...")
+        
+        # Funzione helper per estrarre l'anno di pubblicazione in modo sicuro
+        def extract_year(pub):
+            try:
+                return int(pub.get('bib', {}).get('pub_year', 0))
+            except (ValueError, TypeError):
+                return 0
+
+        # Ordina le pubblicazioni per anno decrescente (le più recenti in alto)
+        raw_pubs.sort(key=extract_year, reverse=True)
+        
+        # Seleziona solo le prime 20 pubblicazioni
+        recent_pubs = raw_pubs[:20]
+        
+        publications = []
+        for pub in recent_pubs:
+            bib = pub.get('bib', {})
+            title = bib.get('title', 'Untitled')
+            year = str(bib.get('pub_year', 'N/A'))
+            venue = bib.get('journal') or bib.get('venue') or 'Scientific Publication'
+            num_citations = pub.get('num_citations', 0)
+            
+            # Categorizzazione basata su parole chiave nella venue
+            v_low = venue.lower()
+            pub_type = 'paper'
+            if 'chapter' in v_low or 'capitolo' in v_low:
+                pub_type = 'chapter'
+            elif 'book' in v_low or 'libro' in v_low or 'monograph' in v_low:
+                pub_type = 'book'
+
+            publications.append({
+                "title": title,
+                "year": year,
+                "venue": venue,
+                "citations": num_citations,
+                "type": pub_type
+            })
+
+        print(f"Successfully processed {len(publications)} publications and updated metrics (Citations: {metrics['citations']}, h-index: {metrics['hindex']}).")
+        return metrics, publications
+
     except Exception as e:
-        print(f"Error fetching academic data: {e}")
+        print(f"Error fetching data with scholarly: {e}")
         return None, None
 
 def get_github_data():
@@ -90,7 +104,7 @@ def get_github_data():
 def main():
     print("Starting automated data sync...")
     
-    # 1. Carica il data.json per preservare Didattica e Progetti
+    # 1. Carica il data.json esistente per preservare didattica e progetti
     try:
         with open('data.json', 'r', encoding='utf-8') as f:
             current_data = json.load(f)
@@ -99,11 +113,16 @@ def main():
         print(f"Error reading data.json: {e}")
         sys.exit(1)
 
-    # 2. Recupera le pubblicazioni/metriche e i repository GitHub
-    scholar_metrics, publications = get_academic_data()
+    # 2. Recupera i dati da Scholar tramite scholarly
+    scholar_metrics, publications = get_scholar_data()
+    
+    # Pausa precauzionale prima di chiamare l'API di GitHub
+    time.sleep(random.uniform(2.0, 4.0))
+    
+    # 3. Recupera i dati da GitHub
     github_repos = get_github_data()
 
-    # 3. Aggiorna data.json solo con le informazioni recuperate con successo
+    # 4. Aggiorna data.json se i recuperi hanno avuto successo
     if scholar_metrics is not None:
         current_data['scholar'] = scholar_metrics
     if publications is not None and len(publications) > 0:
@@ -111,11 +130,11 @@ def main():
     if github_repos is not None:
         current_data['github_repos'] = github_repos
 
-    # 4. Salva il file data.json
+    # 5. Salva il file data.json
     try:
         with open('data.json', 'w', encoding='utf-8') as f:
             json.dump(current_data, f, indent=2, ensure_ascii=False)
-        print("data.json successfully updated with real publications and repositories!")
+        print("data.json successfully updated!")
     except Exception as e:
         print(f"Critical Error writing to data.json: {e}")
         sys.exit(1)
