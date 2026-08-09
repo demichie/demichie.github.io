@@ -3,7 +3,6 @@ import requests
 import sys
 
 # --- CONFIGURATION ---
-# Sostituisci ASSOLUTAMENTE con il tuo vero username tra gli apici
 GITHUB_USERNAME = 'demichie' 
 
 def get_github_data():
@@ -35,42 +34,33 @@ def get_github_data():
 def main():
     print("Starting automated data sync...")
     
-    # 1. Tenta di leggere il file data.json esistente
+    # 1. Read existing data.json
     try:
         with open('data.json', 'r', encoding='utf-8') as f:
             current_data = json.load(f)
         print("Existing data.json loaded successfully.")
     except Exception as e:
-        print(f"Warning: Could not read data.json ({e}). Creating template structure.")
-        current_data = {
-            "scholar": {"citations": 0, "hindex": 0, "i10index": 0},
-            "publications": [],
-            "teaching": [],
-            "projects": []
-        }
+        print(f"Error reading data.json: {e}")
+        sys.exit(1)
 
-    # 2. Recupera i dati di GitHub
+    # 2. Fetch GitHub data
     github_repos = get_github_data()
 
-    # 3. Aggiorna la sezione se la chiamata è andata a buon fine
+    # 3. Update GitHub section if successful
     if github_repos is not None:
         current_data['github_repos'] = github_repos
         print(f"Successfully retrieved {len(github_repos)} public repositories.")
     else:
-        print("Skipping GitHub update due to previous errors.")
+        print("Skipping GitHub update due to errors.")
 
-    # 4. Salva il file data.json aggiornato
+    # 4. Save updated data.json
     try:
         with open('data.json', 'w', encoding='utf-8') as f:
             json.dump(current_data, f, indent=2, ensure_ascii=False)
-        print("data.json successfully written and saved!")
+        print("data.json successfully updated!")
     except Exception as e:
-        print(f"Critical Error: Could not write to data.json: {e}")
+        print(f"Critical Error writing to data.json: {e}")
         sys.exit(1)
 
 if __name__ == "__main__":
-    try:
-        main()
-    except Exception as global_e:
-        print(f"Unexpected global execution error: {global_e}")
-        sys.exit(1)
+    main()

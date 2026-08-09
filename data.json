@@ -1,14 +1,49 @@
 {
   "scholar": {
-    "id": "IL_TUO_SCHOLAR_ID_QUI",
-    "citations": 1240,
-    "hindex": 18,
-    "i10index": 24
+    "id": "6ev_1zUAAAAJ",
+    "citations": 0,
+    "hindex": 0,
+    "i10index": 0
   },
   "publications": [
-    // ... i tuoi paper qui ...
+    {
+      "title": "Example Academic Paper Title",
+      "year": "2026",
+      "venue": "Journal of Volcanology and Geothermal Research",
+      "citations": 5,
+      "type": "paper"
+    },
+    {
+      "title": "Example Book Title on Numerical Modeling",
+      "year": "2025",
+      "venue": "Academic Press",
+      "citations": 12,
+      "type": "book"
+    },
+    {
+      "title": "Example Chapter: Advanced Numerical Integration Methods",
+      "year": "2024",
+      "venue": "Handbook of Computational Science",
+      "citations": 2,
+      "type": "chapter"
+    }
   ],
   "github_repos": [],
-  "teaching": [],
-  "projects": []
+  "teaching": [
+    {
+      "title": "Advanced Computational Fluid Dynamics",
+      "degree": "Master's Degree in Geosciences",
+      "cfu": 6,
+      "period": "First Semester",
+      "info": "Office hours by appointment via email."
+    }
+  ],
+  "projects": [
+    {
+      "title": "Volcanic Hazard Functioning Plan (WP4)",
+      "role": "Principal Investigator",
+      "funding": "National Institute of Geophysics and Volcanology (INGV)",
+      "period": "2026-2028"
+    }
+  ]
 }
