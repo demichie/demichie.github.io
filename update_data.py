@@ -1,91 +1,95 @@
 import json
-import requests
+import os
+import re
 import sys
-import time
-import random
-from scholarly import scholarly
+import requests
+from bs4 import BeautifulSoup
 
 # --- CONFIGURAZIONE ---
 GITHUB_USERNAME = 'demichie'
 SCHOLAR_ID = '6ev_1zUAAAAJ'
 
-def get_scholar_data():
-    print(f"Fetching Google Scholar data using scholarly for ID: {SCHOLAR_ID}...")
+# Recupero della chiave API dai Repository Secrets / Variabili d'ambiente
+SCRAPINGBEE_API_KEY = os.environ.get('SCRAPINGBEE_KEY')
+
+def get_scholar_data_via_scrapingbee():
+    print(f"Fetching Google Scholar data via ScrapingBee for ID: {SCHOLAR_ID}...")
+    
+    # URL del profilo Scholar ordinato per data di pubblicazione
+    target_url = f"https://scholar.google.com/citations?user={SCHOLAR_ID}&hl=en&view_op=list_short&sortby=pubdate"
+    
+    params = {
+        'api_key': SCRAPINGBEE_API_KEY,
+        'url': target_url,
+        'custom_google': 'true'  # Parametro fondamentale di ScrapingBee per bypassare le protezioni Google
+    }
+    
     try:
-        # 1. Cerca l'autore tramite ID
-        author = scholarly.search_author_id(SCHOLAR_ID)
+        response = requests.get('https://app.scrapingbee.com/api/v1/', params=params, timeout=30)
         
-        # Controllo di sicurezza fondamentale: se scholarly viene bloccato a monte, restituisce None
-        if author is None:
-            print("Warning: Google Scholar returned None (likely a bot block or CAPTCHA). Skipping Scholar update to preserve existing data.")
+        if response.status_code != 200:
+            print(f"ScrapingBee returned error status code: {response.status_code}")
             return None, None
             
-        # 2. Compila solo le sezioni base, indici e la lista delle pubblicazioni
-        print("Author found. Filling profile sections...")
-        filled_author = scholarly.fill(author, sections=['basics', 'indices', 'publications'])
+        soup = BeautifulSoup(response.content, 'html.parser')
+        html_text = response.text
         
-        if filled_author is None:
-            print("Warning: Failed to fill author sections. Skipping Scholar update.")
-            return None, None
-
-        # 3. Estrazione indici bibliometrici principali
+        # 1. Estrazione metriche (Citations, h-index, i10-index)
+        citations_match = re.search(r'Citations<\/a><\/td><td class="gsc_rsb_std">(\d+)<\/td>', html_text)
+        hindex_match = re.search(r'h-index<\/a><\/td><td class="gsc_rsb_std">(\d+)<\/td>', html_text)
+        i10index_match = re.search(r'i10-index<\/a><\/td><td class="gsc_rsb_std">(\d+)<\/td>', html_text)
+        
         metrics = {
             "id": SCHOLAR_ID,
-            "citations": filled_author.get('citedby', 0),
-            "hindex": filled_author.get('hindex', 0),
-            "i10index": filled_author.get('i10index', 0)
+            "citations": int(citations_match.group(1)) if citations_match else 0,
+            "hindex": int(hindex_match.group(1)) if hindex_match else 0,
+            "i10index": int(i10index_match.group(1)) if i10index_match else 0
         }
         
-        # 4. Estrazione e ordinamento pubblicazioni
-        raw_pubs = filled_author.get('publications', [])
-        if not raw_pubs:
-            print("No publications found or unable to retrieve the list.")
-            return metrics, None
-
-        print(f"Found {len(raw_pubs)} total publications. Sorting and selecting top 20 recent...")
-        
-        # Funzione helper per estrarre l'anno di pubblicazione in modo sicuro
-        def extract_year(pub):
-            try:
-                return int(pub.get('bib', {}).get('pub_year', 0))
-            except (ValueError, TypeError):
-                return 0
-
-        # Ordina le pubblicazioni per anno decrescente (le più recenti in alto)
-        raw_pubs.sort(key=extract_year, reverse=True)
-        
-        # Seleziona solo le prime 20 pubblicazioni
-        recent_pubs = raw_pubs[:20]
-        
+        # 2. Estrazione ultime 20 pubblicazioni
         publications = []
-        for pub in recent_pubs:
-            bib = pub.get('bib', {})
-            title = bib.get('title', 'Untitled')
-            year = str(bib.get('pub_year', 'N/A'))
-            venue = bib.get('journal') or bib.get('venue') or 'Scientific Publication'
-            num_citations = pub.get('num_citations', 0)
+        rows = soup.select('.gsc_a_tr')
+        
+        print(f"Found {len(rows)} publications on Scholar page.")
+        
+        for row in rows[:20]:
+            title_el = row.select_one('.gsc_a_at')
+            if not title_el:
+                continue
+            title = title_el.text.strip()
             
-            # Categorizzazione basata su parole chiave nella venue
+            details = row.select('.gs_gray')
+            venue = details[1].text.strip() if len(details) > 1 else "Scientific Publication"
+            
+            year_el = row.select_one('.gsc_a_y')
+            year = year_el.text.strip() if year_el else "N/A"
+            
+            citations_el = row.select_one('.gsc_a_ac')
+            try:
+                pub_citations = int(citations_el.text.strip()) if citations_el and citations_el.text.strip() else 0
+            except ValueError:
+                pub_citations = 0
+                
             v_low = venue.lower()
             pub_type = 'paper'
             if 'chapter' in v_low or 'capitolo' in v_low:
                 pub_type = 'chapter'
-            elif 'book' in v_low or 'libro' in v_low or 'monograph' in v_low:
+            elif 'book' in v_low or 'libro' in v_low:
                 pub_type = 'book'
-
+                
             publications.append({
                 "title": title,
                 "year": year,
                 "venue": venue,
-                "citations": num_citations,
+                "citations": pub_citations,
                 "type": pub_type
             })
-
-        print(f"Successfully processed {len(publications)} publications and updated metrics (Citations: {metrics['citations']}, h-index: {metrics['hindex']}).")
+            
+        print(f"Successfully retrieved {len(publications)} publications and updated metrics (Citations: {metrics['citations']}, h-index: {metrics['hindex']}).")
         return metrics, publications
 
     except Exception as e:
-        print(f"Error fetching data with scholarly: {e}")
+        print(f"Error during ScrapingBee execution: {e}")
         return None, None
 
 def get_github_data():
@@ -117,7 +121,11 @@ def get_github_data():
 def main():
     print("Starting automated data sync...")
     
-    # 1. Carica il data.json esistente per preservare i dati in caso di errore di Scholar
+    # Check di sicurezza per la chiave API
+    if not SCRAPINGBEE_API_KEY:
+        print("Error: SCRAPINGBEE_KEY environment variable is missing!")
+        sys.exit(1)
+        
     try:
         with open('data.json', 'r', encoding='utf-8') as f:
             current_data = json.load(f)
@@ -126,17 +134,9 @@ def main():
         print(f"Error reading data.json: {e}")
         sys.exit(1)
 
-    # 2. Recupera i dati da Scholar tramite scholarly
-    scholar_metrics, publications = get_scholar_data()
-    
-    # Pausa precauzionale prima di chiamare l'API di GitHub
-    time.sleep(random.uniform(2.0, 4.0))
-    
-    # 3. Recupera i dati da GitHub
+    scholar_metrics, publications = get_scholar_data_via_scrapingbee()
     github_repos = get_github_data()
 
-    # 4. Aggiorna data.json SOLO se i rispettivi recuperi hanno avuto successo
-    # Se Scholar ha fallito (None), la vecchia lista dei paper rimane intatta nel JSON!
     if scholar_metrics is not None:
         current_data['scholar'] = scholar_metrics
     if publications is not None and len(publications) > 0:
@@ -144,11 +144,10 @@ def main():
     if github_repos is not None:
         current_data['github_repos'] = github_repos
 
-    # 5. Salva il file data.json
     try:
         with open('data.json', 'w', encoding='utf-8') as f:
             json.dump(current_data, f, indent=2, ensure_ascii=False)
-        print("data.json successfully processed!")
+        print("data.json successfully updated with ScrapingBee + GitHub data!")
     except Exception as e:
         print(f"Critical Error writing to data.json: {e}")
         sys.exit(1)
