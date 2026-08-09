@@ -1,5 +1,9 @@
 {
-  "scholar": { "citations": 0, "hindex": 0, "i10index": 0 },
+  "scholar": {
+    "citations": 0,
+    "hindex": 0,
+    "i10index": 0
+  },
   "publications": [],
   "github_repos": [],
   "teaching": [
