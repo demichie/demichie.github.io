@@ -15,10 +15,19 @@ def get_scholar_data():
         # 1. Cerca l'autore tramite ID
         author = scholarly.search_author_id(SCHOLAR_ID)
         
+        # Controllo di sicurezza fondamentale: se scholarly viene bloccato a monte, restituisce None
+        if author is None:
+            print("Warning: Google Scholar returned None (likely a bot block or CAPTCHA). Skipping Scholar update to preserve existing data.")
+            return None, None
+            
         # 2. Compila solo le sezioni base, indici e la lista delle pubblicazioni
-        # Non facciamo il fill() su ogni singolo paper, così risparmiamo centinaia di chiamate!
+        print("Author found. Filling profile sections...")
         filled_author = scholarly.fill(author, sections=['basics', 'indices', 'publications'])
         
+        if filled_author is None:
+            print("Warning: Failed to fill author sections. Skipping Scholar update.")
+            return None, None
+
         # 3. Estrazione indici bibliometrici principali
         metrics = {
             "id": SCHOLAR_ID,
@@ -29,6 +38,10 @@ def get_scholar_data():
         
         # 4. Estrazione e ordinamento pubblicazioni
         raw_pubs = filled_author.get('publications', [])
+        if not raw_pubs:
+            print("No publications found or unable to retrieve the list.")
+            return metrics, None
+
         print(f"Found {len(raw_pubs)} total publications. Sorting and selecting top 20 recent...")
         
         # Funzione helper per estrarre l'anno di pubblicazione in modo sicuro
@@ -104,7 +117,7 @@ def get_github_data():
 def main():
     print("Starting automated data sync...")
     
-    # 1. Carica il data.json esistente per preservare didattica e progetti
+    # 1. Carica il data.json esistente per preservare i dati in caso di errore di Scholar
     try:
         with open('data.json', 'r', encoding='utf-8') as f:
             current_data = json.load(f)
@@ -122,7 +135,8 @@ def main():
     # 3. Recupera i dati da GitHub
     github_repos = get_github_data()
 
-    # 4. Aggiorna data.json se i recuperi hanno avuto successo
+    # 4. Aggiorna data.json SOLO se i rispettivi recuperi hanno avuto successo
+    # Se Scholar ha fallito (None), la vecchia lista dei paper rimane intatta nel JSON!
     if scholar_metrics is not None:
         current_data['scholar'] = scholar_metrics
     if publications is not None and len(publications) > 0:
@@ -134,7 +148,7 @@ def main():
     try:
         with open('data.json', 'w', encoding='utf-8') as f:
             json.dump(current_data, f, indent=2, ensure_ascii=False)
-        print("data.json successfully updated!")
+        print("data.json successfully processed!")
     except Exception as e:
         print(f"Critical Error writing to data.json: {e}")
         sys.exit(1)
