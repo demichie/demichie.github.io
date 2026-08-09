@@ -4,7 +4,7 @@ import sys
 
 # --- CONFIGURATION ---
 # Sostituisci ASSOLUTAMENTE con il tuo vero username tra gli apici
-GITHUB_USERNAME = 'il-tuo-username-qui' 
+GITHUB_USERNAME = 'demichie' 
 
 def get_github_data():
     print(f"Fetching GitHub repositories for user: {GITHUB_USERNAME}...")
