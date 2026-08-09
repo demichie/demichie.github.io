@@ -28,7 +28,80 @@
       "type": "chapter"
     }
   ],
-  "github_repos": [],
+  "github_repos": [
+    {
+      "name": "elicipy2",
+      "description": "Expert elicitation Python code",
+      "url": "https://github.com/demichie/elicipy2",
+      "stars": 0,
+      "language": "Python",
+      "updated_at": "2026-08-08"
+    },
+    {
+      "name": "OpenPDAC-13",
+      "description": null,
+      "url": "https://github.com/demichie/OpenPDAC-13",
+      "stars": 1,
+      "language": "C++",
+      "updated_at": "2026-08-08"
+    },
+    {
+      "name": "IMEX_SfloW2D_v2",
+      "description": "Shallow water variable density gas-particle flow",
+      "url": "https://github.com/demichie/IMEX_SfloW2D_v2",
+      "stars": 10,
+      "language": "Fortran",
+      "updated_at": "2026-08-08"
+    },
+    {
+      "name": "elicipy",
+      "description": "Expert. elicitation Python code",
+      "url": "https://github.com/demichie/elicipy",
+      "stars": 3,
+      "language": "Python",
+      "updated_at": "2026-08-08"
+    },
+    {
+      "name": "OpenPDAC-14",
+      "description": "OpenPDAC for OpenFOAM 14: an Eulerian-Eulerian-Lagrangian multiphase solver for volcanic flows.",
+      "url": "https://github.com/demichie/OpenPDAC-14",
+      "stars": 0,
+      "language": "C",
+      "updated_at": "2026-08-08"
+    },
+    {
+      "name": "OpenPDAC-11",
+      "description": null,
+      "url": "https://github.com/demichie/OpenPDAC-11",
+      "stars": 1,
+      "language": "C++",
+      "updated_at": "2026-08-08"
+    },
+    {
+      "name": "OpenPDAC-12",
+      "description": "Eulerian-Eulerian-Lagrangian multiphase flow model for the simulation of explosive volcanic events over complex 3D topographies ",
+      "url": "https://github.com/demichie/OpenPDAC-12",
+      "stars": 3,
+      "language": "C++",
+      "updated_at": "2026-08-08"
+    },
+    {
+      "name": "PLUME-MoM-TSM",
+      "description": "Volcanic plume integral model based on the TSM method of moments",
+      "url": "https://github.com/demichie/PLUME-MoM-TSM",
+      "stars": 3,
+      "language": "Fortran",
+      "updated_at": "2026-08-07"
+    },
+    {
+      "name": "IMEX_SfloW2D_dev",
+      "description": null,
+      "url": "https://github.com/demichie/IMEX_SfloW2D_dev",
+      "stars": 0,
+      "language": "Fortran",
+      "updated_at": "2026-05-14"
+    }
+  ],
   "teaching": [
     {
       "title": "Advanced Computational Fluid Dynamics",
