@@ -1,0 +1,33 @@
+name: Update Portfolio Data Daily
+
+on:
+  schedule:
+    - cron: '0 2 * * *' # Gira ogni notte alle 02:00 UTC
+  workflow_dispatch: # Ti permette di avviarlo manualmente quando vuoi
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.x'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install scholarly requests
+
+    - name: Run update script
+      run: python update_data.py
+
+    - name: Commit and push if data changed
+      run: |
+        git config --global user.name 'github-actions[bot]'
+        git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+        git add data.json
+        git diff --quiet && git diff --staged --quiet || (git commit -m "Daily automated data update" && git push)
