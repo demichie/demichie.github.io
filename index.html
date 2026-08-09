@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Academic Profile & Portfolio</title>
+    <!-- Tailwind CSS for modern, clean styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome for professional academic icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .tab-active { border-bottom-color: #2563eb; color: #2563eb; font-weight: 600; }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans antialiased">
+
+    <!-- HERO / HEADER SECTION -->
+    <header class="bg-white border-b border-gray-200 sticky top-0 z-50 shadow-sm">
+        <div class="max-w-6xl mx-auto px-4 py-4 flex flex-col sm:flex-row justify-between items-center gap-4">
+            <div>
+                <h1 id="prof-name" class="text-2xl font-bold text-gray-900 tracking-tight">Academic Profile</h1>
+                <p id="prof-title" class="text-sm text-gray-500 mt-0.5">Senior Researcher / Professor</p>
+            </div>
+            <nav class="flex flex-wrap justify-center gap-1 text-sm font-medium">
+                <a href="#about" class="px-3 py-2 text-gray-600 hover:text-blue-600 rounded-md transition">About</a>
+                <a href="#metrics" class="px-3 py-2 text-gray-600 hover:text-blue-600 rounded-md transition">Metrics</a>
+                <a href="#publications" class="px-3 py-2 text-gray-600 hover:text-blue-600 rounded-md transition">Publications</a>
+                <a href="#code" class="px-3 py-2 text-gray-600 hover:text-blue-600 rounded-md transition">Software</a>
+                <a href="#projects" class="px-3 py-2 text-gray-600 hover:text-blue-600 rounded-md transition">Research</a>
+                <a href="#teaching" class="px-3 py-2 text-gray-600 hover:text-blue-600 rounded-md transition">Teaching</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-4 py-10 space-y-16">
+
+        <!-- METRICS OVERVIEW (Drawn from Scholar) -->
+        <section id="metrics" class="scroll-mt-20">
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm flex items-center gap-4">
+                    <div class="p-3 bg-blue-50 text-blue-600 rounded-lg"><i class="fa-solid fa-quote-right class text-2xl"></i></div>
+                    <div>
+                        <p class="text-sm text-gray-500 font-medium uppercase tracking-wider">Total Citations</p>
+                        <h3 id="stat-citations" class="text-3xl font-bold text-gray-900">...</h3>
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm flex items-center gap-4">
+                    <div class="p-3 bg-indigo-50 text-indigo-600 rounded-lg"><i class="fa-solid fa-chart-line text-2xl"></i></div>
+                    <div>
+                        <p class="text-sm text-gray-500 font-medium uppercase tracking-wider">H-Index</p>
+                        <h3 id="stat-hindex" class="text-3xl font-bold text-gray-900">...</h3>
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm flex items-center gap-4">
+                    <div class="p-3 bg-emerald-50 text-emerald-600 rounded-lg"><i class="fa-solid fa-arrow-up-right-dots text-2xl"></i></div>
+                    <div>
+                        <p class="text-sm text-gray-500 font-medium uppercase tracking-wider">i10-Index</p>
+                        <h3 id="stat-i10index" class="text-3xl font-bold text-gray-900">...</h3>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PUBLICATIONS SECTION (Categorized with dynamic tabs) -->
+        <section id="publications" class="scroll-mt-20">
+            <div class="flex flex-col md:flex-row md:items-center justify-between border-b border-gray-200 pb-4 mb-6 gap-4">
+                <h2 class="text-2xl font-bold text-gray-900 flex items-center gap-2">
+                    <i class="fa-solid fa-book-open text-blue-600"></i> Publications
+                </h2>
+                <!-- Sub-category Tabs -->
+                <div class="flex gap-4 text-sm font-medium">
+                    <button onclick="filterPublications('paper')" id="tab-paper" class="pb-2 border-b-2 border-transparent text-gray-500 hover:text-gray-700 tab-active">Papers & Proceedings</button>
+                    <button onclick="filterPublications('book')" id="tab-book" class="pb-2 border-b-2 border-transparent text-gray-500 hover:text-gray-700">Books</button>
+                    <button onclick="filterPublications('chapter')" id="tab-chapter" class="pb-2 border-b-2 border-transparent text-gray-500 hover:text-gray-700">Book Chapters</button>
+                </div>
+            </div>
+            
+            <div id="publications-list" class="space-y-4">
+                <!-- Dynamically loaded -->
+                <p class="text-gray-500 italic">Loading publications...</p>
+            </div>
+        </section>
+
+        <!-- GITHUB / OPEN SOURCE CODES SECTION -->
+        <section id="code" class="scroll-mt-20">
+            <h2 class="text-2xl font-bold text-gray-900 flex items-center gap-2 border-b border-gray-200 pb-4 mb-6">
+                <i class="fa-brands fa-github text-gray-900"></i> Open-Source Software & Codes
+            </h2>
+            <div id="github-list" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Dynamically loaded -->
+                <p class="text-gray-500 italic col-span-2">Loading repository data...</p>
+            </div>
+        </section>
+
+        <!-- RESEARCH PROJECTS SECTION (Manual Data) -->
+        <section id="projects" class="scroll-mt-20">
+            <h2 class="text-2xl font-bold text-gray-900 flex items-center gap-2 border-b border-gray-200 pb-4 mb-6">
+                <i class="fa-solid fa-diagram-project text-blue-600"></i> Research Projects
+            </h2>
+            <div id="projects-list" class="grid grid-cols-1 gap-4">
+                <!-- Dynamically loaded -->
+            </div>
+        </section>
+
+        <!-- TEACHING & ACADEMIC DUTIES SECTION (Manual Data) -->
+        <section id="teaching" class="scroll-mt-20">
+            <h2 class="text-2xl font-bold text-gray-900 flex items-center gap-2 border-b border-gray-200 pb-4 mb-6">
+                <i class="fa-solid fa-graduation-cap text-blue-600"></i> Teaching & Courses
+            </h2>
+            <div id="teaching-list" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Dynamically loaded -->
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-white border-t border-gray-200 mt-20 py-8">
+        <div class="max-w-6xl mx-auto px-4 text-center text-sm text-gray-500">
+            <p>&copy; 2026 Academic Portfolio. Automatically updated via GitHub Actions.</p>
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT LOGIC TO FETCH JSON DATA -->
+    <script>
+        let allPublications = [];
+        let currentType = 'paper';
+
+        document.addEventListener("DOMContentLoaded", () => {
+            fetch('data.json')
+                .then(response => response.json())
+                .then(data => {
+                    // 1. Load Scholar Metrics
+                    if(data.scholar) {
+                        document.getElementById('stat-citations').innerText = data.scholar.citations || 0;
+                        document.getElementById('stat-hindex').innerText = data.scholar.hindex || 0;
+                        document.getElementById('stat-i10index').innerText = data.scholar.i10index || 0;
+                    }
+
+                    // 2. Cache Publications and render defaults
+                    allPublications = data.publications || [];
+                    renderPublications();
+
+                    // 3. Load GitHub Repositories
+                    const githubList = document.getElementById('github-list');
+                    githubList.innerHTML = '';
+                    if(data.github_repos && data.github_repos.length > 0) {
+                        data.github_repos.forEach(repo => {
+                            githubList.innerHTML += `
+                                <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition flex flex-col justify-between">
+                                    <div>
+                                        <div class="flex justify-between items-start gap-2 mb-2">
+                                            <a href="${repo.url}" target="_blank" class="text-lg font-semibold text-blue-600 hover:underline flex items-center gap-1.5 break-all">
+                                                <i class="fa-solid fa-code-branch text-sm text-gray-400"></i>${repo.name}
+                                            </a>
+                                            <span class="text-xs px-2 py-0.5 bg-gray-100 border border-gray-200 rounded-full font-medium text-gray-600">${repo.language || 'Code'}</span>
+                                        </div>
+                                        <p class="text-sm text-gray-600 line-clamp-3 mb-4">${repo.description || 'No description provided.'}</p>
+                                    </div>
+                                    <div class="flex gap-4 text-xs text-gray-500 border-t border-gray-100 pt-3">
+                                        <span><i class="fa-regular fa-star mr-1"></i>${repo.stars || 0} stars</span>
+                                        <span><i class="fa-solid fa-clock-rotate-left mr-1"></i>Updated: ${repo.updated_at || 'Recently'}</span>
+                                    </div>
+                                </div>
+                            `;
+                        });
+                    } else {
+                        githubList.innerHTML = '<p class="text-gray-500 italic">No repositories listed.</p>';
+                    }
+
+                    // 4. Load Research Projects
+                    const projectsList = document.getElementById('projects-list');
+                    projectsList.innerHTML = '';
+                    if(data.projects && data.projects.length > 0) {
+                        data.projects.forEach(project => {
+                            projectsList.innerHTML += `
+                                <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-sm">
+                                    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-1 mb-2">
+                                        <h3 class="text-lg font-bold text-gray-900">${project.title}</h3>
+                                        <span class="text-xs font-semibold uppercase px-2 py-1 bg-blue-50 text-blue-700 border border-blue-200 rounded-md whitespace-nowrap self-start">${project.period}</span>
+                                    </div>
+                                    <p class="text-sm text-gray-700 mb-2"><strong class="text-gray-900">Role:</strong> ${project.role}</p>
+                                    <p class="text-xs text-gray-500"><i class="fa-solid fa-building-columns mr-1"></i>Funding Institution: ${project.funding}</p>
+                                </div>
+                            `;
+                        });
+                    } else {
+                        projectsList.innerHTML = '<p class="text-gray-500 italic">No current research projects.</p>';
+                    }
+
+                    // 5. Load Teaching
+                    const teachingList = document.getElementById('teaching-list');
+                    teachingList.innerHTML = '';
+                    if(data.teaching && data.teaching.length > 0) {
+                        data.teaching.forEach(course => {
+                            teachingList.innerHTML += `
+                                <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-sm flex flex-col justify-between">
+                                    <div>
+                                        <div class="flex justify-between items-start gap-2 mb-2">
+                                            <h3 class="text-base font-bold text-gray-900">${course.title}</h3>
+                                            <span class="text-xs px-2 py-0.5 bg-indigo-50 border border-indigo-100 text-indigo-700 rounded-full font-bold whitespace-nowrap">${course.cfu} CFU</span>
+                                        </div>
+                                        <p class="text-xs text-gray-500 font-medium mb-1"><i class="fa-solid fa-graduation-cap mr-1"></i>${course.degree}</p>
+                                        <p class="text-xs text-emerald-600 font-medium mb-3"><i class="fa-regular fa-calendar mr-1"></i>${course.period}</p>
+                                        <p class="text-sm text-gray-600">${course.info}</p>
+                                    </div>
+                                </div>
+                            `;
+                        });
+                    } else {
+                        teachingList.innerHTML = '<p class="text-gray-500 italic">No teaching activities assigned.</p>';
+                    }
+                })
+                .catch(err => {
+                    console.error("Error fetching data.json:", err);
+                });
+        });
+
+        // Tab Switching Logic for Publications
+        function filterPublications(type) {
+            currentType = type;
+            ['paper', 'book', 'chapter'].forEach(t => {
+                document.getElementById(`tab-${t}`).classList.remove('tab-active');
+            });
+            document.getElementById(`tab-${type}`).classList.add('tab-active');
+            renderPublications();
+        }
+
+        // Render Publications matching active type
+        function renderPublications() {
+            const listContainer = document.getElementById('publications-list');
+            listContainer.innerHTML = '';
+
+            // Filter out target types (defaults to 'paper' if unspecified in JSON data)
+            const filtered = allPublications.filter(pub => {
+                const type = pub.type || 'paper';
+                return type === currentType;
+            });
+
+            if(filtered.length > 0) {
+                filtered.forEach(pub => {
+                    listContainer.innerHTML += `
+                        <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm flex justify-between items-center gap-4">
+                            <div class="space-y-1">
+                                <h4 class="text-base font-semibold text-gray-900">${pub.title}</h4>
+                                <p class="text-xs text-gray-500">${pub.venue ? pub.venue + ' — ' : ''}<strong>${pub.year}</strong></p>
+                            </div>
+                            <div class="text-right whitespace-nowrap">
+                                <span class="text-xs px-2.5 py-1 bg-gray-100 text-gray-700 border border-gray-200 font-bold rounded-md">
+                                    Citations: ${pub.citations || 0}
+                                </span>
+                            </div>
+                        </div>
+                    `;
+                });
+            } else {
+                listContainer.innerHTML = `<p class="text-sm text-gray-400 italic">No assets listed under this category yet.</p>`;
+            }
+        }
+    </script>
+</body>
+</html>
