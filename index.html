@@ -3,424 +3,310 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Academic Profile - Mattia de' Michieli Vitturi</title>
+    <title>Mattia de' Michieli Vitturi - Academic Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root {
-            --bg-color: #f8fafc;
-            --text-color: #1e293b;
-            --primary-color: #2563eb;
-            --primary-hover: #1d4ed8;
-            --card-bg: #ffffff;
-            --border-color: #e2e8f0;
-            --subtext-color: #64748b;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            line-height: 1.6;
-            color: var(--text-color);
-            background-color: var(--bg-color);
-            margin: 0;
-            padding: 0;
-        }
-
-        .container {
-            max-width: 960px;
-            margin: 0 auto;
-            padding: 40px 20px;
-        }
-
-        header {
-            margin-bottom: 40px;
-            border-bottom: 2px solid var(--border-color);
-            padding-bottom: 20px;
-        }
-
-        h1 {
-            font-size: 2.2rem;
-            margin-bottom: 10px;
-            color: #0f172a;
-        }
-
-        section {
-            margin-bottom: 45px;
-        }
-
-        h2 {
-            font-size: 1.5rem;
-            color: var(--primary-color);
-            border-bottom: 2px solid var(--border-color);
-            padding-bottom: 8px;
-            margin-bottom: 20px;
-        }
-
-        /* Scholar Metrics Grid */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-            gap: 15px;
-            margin-top: 20px;
-        }
-
-        .stat-card {
-            background: var(--card-bg);
-            padding: 16px;
-            border-radius: 10px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-            text-align: center;
-            border: 1px solid var(--border-color);
-        }
-
-        .stat-value {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--primary-color);
-        }
-
-        .stat-label {
-            font-size: 0.85rem;
-            color: var(--subtext-color);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-top: 4px;
-        }
-
-        /* Generic Item Card */
-        .item-card {
-            background: var(--card-bg);
-            padding: 20px;
-            margin-bottom: 15px;
-            border-radius: 10px;
-            border: 1px solid var(--border-color);
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
-
-        .item-card:hover {
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-        }
-
-        .item-title {
-            font-weight: 600;
-            font-size: 1.1rem;
-            color: #0f172a;
-            margin-bottom: 6px;
-        }
-
-        .item-sub {
-            color: var(--subtext-color);
-            font-size: 0.92rem;
-            margin-bottom: 8px;
-        }
-
-        /* Grid specific for GitHub Repositories */
-        .repo-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 20px;
-        }
-
-        .repo-card {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            background: var(--card-bg);
-            padding: 20px;
-            border-radius: 10px;
-            border: 1px solid var(--border-color);
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
-
-        .repo-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-        }
-
-        .repo-desc {
-            font-size: 0.9rem;
-            color: #334155;
-            margin: 10px 0 15px 0;
-            flex-grow: 1;
-        }
-
-        .repo-footer {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-top: auto;
-            padding-top: 10px;
-            border-top: 1px dashed var(--border-color);
-        }
-
-        /* Tags and Badges */
-        .tag {
-            display: inline-block;
-            background: #f1f5f9;
-            color: #475569;
-            padding: 3px 10px;
-            border-radius: 6px;
-            font-size: 0.8rem;
-            font-weight: 600;
-        }
-
-        .lang-tag {
-            background: #eff6ff;
-            color: var(--primary-color);
-        }
-
-        /* Buttons & Links */
-        .btn-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            color: var(--primary-color);
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 0.9rem;
-        }
-
-        .btn-link:hover {
-            text-decoration: underline;
-        }
-
-        .scholar-banner {
-            background: #f0f9ff;
-            border: 1px solid #bae6fd;
-            padding: 15px 20px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .scholar-banner p {
-            margin: 0;
-            font-size: 0.95rem;
-            color: #0369a1;
-        }
-
-        .btn-scholar {
-            background-color: var(--primary-color);
-            color: white;
-            padding: 8px 16px;
-            border-radius: 6px;
-            text-decoration: none;
-            font-size: 0.88rem;
-            font-weight: 600;
-            transition: background 0.2s ease;
-        }
-
-        .btn-scholar:hover {
-            background-color: var(--primary-hover);
-        }
-
-        .error-msg {
-            color: #991b1b;
-            background: #fef2f2;
-            padding: 15px;
-            border-radius: 8px;
-            border: 1px solid #fecaca;
-        }
+        .tab-active { border-bottom-color: #2563eb; color: #2563eb; font-weight: 600; }
     </style>
 </head>
-<body>
+<body class="bg-gray-50 text-gray-800 font-sans antialiased">
 
-<div class="container">
-    <header>
-        <h1 id="prof-name">Mattia de' Michieli Vitturi</h1>
-        <div class="item-sub">Senior Researcher at INGV (Istituto Nazionale di Geofisica e Vulcanologia)</div>
-        <div class="stats-grid" id="scholar-metrics">
-            <!-- Scholar metrics loaded dynamically -->
+    <!-- HEADER / NAVIGATION -->
+    <header class="bg-white border-b border-gray-200 sticky top-0 z-50 shadow-sm">
+        <div class="max-w-6xl mx-auto px-4 py-4 flex flex-col sm:flex-row justify-between items-center gap-4">
+            <div>
+                <h1 class="text-2xl font-bold text-gray-900 tracking-tight">Mattia de' Michieli Vitturi</h1>
+                <p class="text-sm text-gray-500 mt-0.5">Senior Researcher | INGV Pisa Section</p>
+            </div>
+            <nav class="flex flex-wrap justify-center gap-1 text-sm font-medium">
+                <a href="#metrics" class="px-3 py-2 text-gray-600 hover:text-blue-600 rounded-md transition">Metrics</a>
+                <a href="#publications" class="px-3 py-2 text-gray-600 hover:text-blue-600 rounded-md transition">Publications</a>
+                <a href="#code" class="px-3 py-2 text-gray-600 hover:text-blue-600 rounded-md transition">Software</a>
+                <a href="#projects" class="px-3 py-2 text-gray-600 hover:text-blue-600 rounded-md transition">Research</a>
+                <a href="#teaching" class="px-3 py-2 text-gray-600 hover:text-blue-600 rounded-md transition">Teaching</a>
+            </nav>
         </div>
     </header>
 
-    <section id="sec-education">
-        <h2>Education</h2>
-        <div id="education-content"></div>
-    </section>
+    <main class="max-w-6xl mx-auto px-4 py-10 space-y-16">
 
-    <section id="sec-projects">
-        <h2>Research Projects</h2>
-        <div id="projects-content"></div>
-    </section>
-
-    <section id="sec-teaching">
-        <h2>Teaching & Courses</h2>
-        <div id="teaching-content"></div>
-    </section>
-
-    <section id="sec-publications">
-        <h2>Journal Publications</h2>
-        <div class="scholar-banner">
-            <p>Showing the 20 most recent publications automatically synced from Google Scholar.</p>
-            <a href="https://scholar.google.com/citations?user=6ev_1zUAAAAJ&hl=en" target="_blank" class="btn-scholar">
-                View Full Profile on Google Scholar ↗
-            </a>
-        </div>
-        <div id="publications-content"></div>
-    </section>
-
-    <section id="sec-other-pub">
-        <h2>Books & Book Chapters</h2>
-        <div id="other-pub-content"></div>
-    </section>
-
-    <section id="sec-github">
-        <h2>Software & Repositories</h2>
-        <div id="github-content" class="repo-grid"></div>
-    </section>
-</div>
-
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-    loadWebsiteData();
-});
-
-async function loadWebsiteData() {
-    try {
-        // Parallel load of local static JSONs and Python generated dynamic JSON
-        const [education, projects, teaching, otherPubs, dynamicData] = await Promise.all([
-            fetch('data/education.json').then(res => res.json()),
-            fetch('data/projects.json').then(res => res.json()),
-            fetch('data/teaching.json').then(res => res.json()),
-            fetch('data/other_publications.json').then(res => res.json()),
-            fetch('data/scholar_github.json').then(res => res.json())
-        ]);
-
-        // Render static sections
-        renderEducation(education);
-        renderProjects(projects);
-        renderTeaching(teaching);
-        renderOtherPublications(otherPubs);
-        
-        // Render dynamic sections (Scholar & GitHub)
-        renderScholarMetrics(dynamicData.metrics);
-        renderJournalPapers(dynamicData.publications);
-        renderGitHubRepositories(dynamicData.repositories);
-
-    } catch (error) {
-        console.error("Error loading profile data:", error);
-        const containers = ['education-content', 'projects-content', 'teaching-content', 'publications-content', 'other-pub-content', 'github-content'];
-        containers.forEach(id => {
-            const el = document.getElementById(id);
-            if (el) el.innerHTML = `<p class="error-msg">Unable to load data at this time.</p>`;
-        });
-    }
-}
-
-function renderEducation(data) {
-    const container = document.getElementById('education-content');
-    container.innerHTML = data.map(item => `
-        <div class="item-card">
-            <div class="item-title">${item.degree}</div>
-            <div class="item-sub">${item.institution} — ${item.year}</div>
-            <div style="font-size: 0.9rem; margin-top: 5px;"><em>Thesis: ${item.thesis}</em></div>
-            <div style="font-size: 0.9rem; color: #64748b;">Advisor: ${item.advisor}</div>
-        </div>
-    `).join('');
-}
-
-function renderProjects(data) {
-    const container = document.getElementById('projects-content');
-    container.innerHTML = data.map(item => `
-        <div class="item-card">
-            <div class="item-title">${item.title}</div>
-            <div class="item-sub">Period: ${item.period} | Funding Agency: ${item.funding_agency}</div>
-            <div><span class="tag">${item.role}</span> ${item.notes ? `<small style="color:#64748b; margin-left:10px;">${item.notes}</small>` : ''}</div>
-        </div>
-    `).join('');
-}
-
-function renderTeaching(data) {
-    const container = document.getElementById('teaching-content');
-    container.innerHTML = data.map(item => `
-        <div class="item-card">
-            <div class="item-title">${item.course}</div>
-            <div class="item-sub">${item.institution} — ${item.period}</div>
-            <div style="font-size: 0.9rem; color: #334155; margin-top: 5px;">${item.details}</div>
-        </div>
-    `).join('');
-}
-
-function renderOtherPublications(data) {
-    const container = document.getElementById('other-pub-content');
-    container.innerHTML = data.map(item => `
-        <div class="item-card">
-            <div class="item-title">${item.title}</div>
-            <div class="item-sub">${item.authors} (${item.year})</div>
-            <div style="font-size: 0.9rem; color: #475569;">
-                <span class="tag">${item.type}</span> 
-                ${item.book_title ? `In: <em>${item.book_title}</em> — ` : ''} ${item.publisher} ${item.pages ? `, pp. ${item.pages}` : ''}
-                ${item.notes ? `<br><small style="color:#64748b;">Note: ${item.notes}</small>` : ''}
+        <!-- METRICS SECTION -->
+        <section id="metrics" class="scroll-mt-20">
+            <div class="mb-4 text-right">
+                <a href="https://scholar.google.com/citations?user=6ev_1zUAAAAJ&hl=en" target="_blank" class="text-sm text-blue-600 hover:underline font-medium inline-flex items-center gap-1">
+                    <i class="fa-solid fa-graduation-cap"></i> View Full Google Scholar Profile &rarr;
+                </a>
             </div>
-        </div>
-    `).join('');
-}
-
-function renderScholarMetrics(metrics) {
-    const container = document.getElementById('scholar-metrics');
-    if (!metrics) return;
-    container.innerHTML = `
-        <div class="stat-card">
-            <div class="stat-value">${metrics.total_citations || 0}</div>
-            <div class="stat-label">Citations</div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-value">${metrics.h_index || 0}</div>
-            <div class="stat-label">h-index</div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-value">${metrics.i10_index || 0}</div>
-            <div class="stat-label">i10-index</div>
-        </div>
-    `;
-}
-
-function renderJournalPapers(publications) {
-    const container = document.getElementById('publications-content');
-    if (!publications || publications.length === 0) {
-        container.innerHTML = '<p>No journal articles found.</p>';
-        return;
-    }
-    container.innerHTML = publications.map(pub => `
-        <div class="item-card">
-            <div class="item-title">${pub.title}</div>
-            <div class="item-sub">${pub.authors}</div>
-            <div style="font-size: 0.9rem; color: #475569;">
-                <em>${pub.journal || 'Journal Paper'}</em>${pub.year ? `, ${pub.year}` : ''} 
-                ${pub.citations ? `— <small style="color:var(--primary-color); font-weight:600;">Cited ${pub.citations} times</small>` : ''}
-            </div>
-        </div>
-    `).join('');
-}
-
-function renderGitHubRepositories(repos) {
-    const container = document.getElementById('github-content');
-    if (!repos || repos.length === 0) {
-        container.innerHTML = '<p>No public repositories found.</p>';
-        return;
-    }
-    container.innerHTML = repos.map(repo => `
-        <div class="repo-card">
-            <div>
-                <div class="item-title">${repo.name}</div>
-                <div class="repo-desc">${repo.description || 'No description provided.'}</div>
-            </div>
-            <div class="repo-footer">
-                <div>
-                    ${repo.language ? `<span class="tag lang-tag">${repo.language}</span>` : ''}
-                    ${repo.stars !== undefined ? `<span class="tag">⭐ ${repo.stars}</span>` : ''}
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm flex items-center gap-4">
+                    <div class="p-3 bg-blue-50 text-blue-600 rounded-lg"><i class="fa-solid fa-quote-right text-2xl"></i></div>
+                    <div>
+                        <p class="text-sm text-gray-500 font-medium uppercase tracking-wider">Total Citations</p>
+                        <h3 id="stat-citations" class="text-3xl font-bold text-gray-900">0</h3>
+                    </div>
                 </div>
-                <a href="${repo.url}" target="_blank" class="btn-link">GitHub ↗</a>
+                <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm flex items-center gap-4">
+                    <div class="p-3 bg-indigo-50 text-indigo-600 rounded-lg"><i class="fa-solid fa-chart-line text-2xl"></i></div>
+                    <div>
+                        <p class="text-sm text-gray-500 font-medium uppercase tracking-wider">H-Index</p>
+                        <h3 id="stat-hindex" class="text-3xl font-bold text-gray-900">0</h3>
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm flex items-center gap-4">
+                    <div class="p-3 bg-emerald-50 text-emerald-600 rounded-lg"><i class="fa-solid fa-arrow-up-right-dots text-2xl"></i></div>
+                    <div>
+                        <p class="text-sm text-gray-500 font-medium uppercase tracking-wider">i10-Index</p>
+                        <h3 id="stat-i10index" class="text-3xl font-bold text-gray-900">0</h3>
+                    </div>
+                </div>
             </div>
-        </div>
-    `).join('');
-}
-</script>
+        </section>
 
+        <!-- PUBLICATIONS SECTION -->
+        <section id="publications" class="scroll-mt-20">
+            <div class="flex flex-col md:flex-row md:items-center justify-between border-b border-gray-200 pb-4 mb-6 gap-4">
+                <h2 class="text-2xl font-bold text-gray-900 flex items-center gap-2">
+                    <i class="fa-solid fa-book-open text-blue-600"></i> Publications
+                </h2>
+                <div class="flex gap-4 text-sm font-medium">
+                    <button onclick="filterPublications('paper')" id="tab-paper" class="pb-2 border-b-2 border-transparent text-gray-500 hover:text-gray-700 tab-active">Papers & Proceedings</button>
+                    <button onclick="filterPublications('book')" id="tab-book" class="pb-2 border-b-2 border-transparent text-gray-500 hover:text-gray-700">Books</button>
+                    <button onclick="filterPublications('chapter')" id="tab-chapter" class="pb-2 border-b-2 border-transparent text-gray-500 hover:text-gray-700">Book Chapters</button>
+                </div>
+            </div>
+
+            <!-- Notice Banner for Scholar Sync -->
+            <div id="scholar-notice" class="bg-blue-50 border border-blue-200 text-blue-800 p-4 rounded-xl mb-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div class="text-sm">
+                    <i class="fa-solid fa-circle-info mr-1"></i>
+                    Displaying the <strong>20 most recent publications</strong> automatically synced from Google Scholar.
+                </div>
+                <a href="https://scholar.google.com/citations?user=6ev_1zUAAAAJ&hl=en" target="_blank" class="px-4 py-2 bg-blue-600 text-white text-xs font-semibold rounded-lg hover:bg-blue-700 transition whitespace-nowrap">
+                    Complete List on Scholar ↗
+                </a>
+            </div>
+
+            <div id="publications-list" class="space-y-4">
+                <p class="text-gray-500 italic">Loading publications...</p>
+            </div>
+        </section>
+
+        <!-- SOFTWARE SECTION -->
+        <section id="code" class="scroll-mt-20">
+            <h2 class="text-2xl font-bold text-gray-900 flex items-center gap-2 border-b border-gray-200 pb-4 mb-6">
+                <i class="fa-brands fa-github text-gray-900"></i> Open-Source Software & Repositories
+            </h2>
+            <div id="github-list" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <p class="text-gray-500 italic col-span-2">Loading software repositories...</p>
+            </div>
+        </section>
+
+        <!-- RESEARCH PROJECTS SECTION -->
+        <section id="projects" class="scroll-mt-20">
+            <h2 class="text-2xl font-bold text-gray-900 flex items-center gap-2 border-b border-gray-200 pb-4 mb-6">
+                <i class="fa-solid fa-diagram-project text-blue-600"></i> Research Projects
+            </h2>
+            <div id="projects-list" class="grid grid-cols-1 gap-4">
+                <p class="text-gray-500 italic">Loading projects...</p>
+            </div>
+        </section>
+
+        <!-- TEACHING SECTION -->
+        <section id="teaching" class="scroll-mt-20">
+            <h2 class="text-2xl font-bold text-gray-900 flex items-center gap-2 border-b border-gray-200 pb-4 mb-6">
+                <i class="fa-solid fa-graduation-cap text-blue-600"></i> Teaching & Courses
+            </h2>
+            <div id="teaching-list" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <p class="text-gray-500 italic col-span-2">Loading teaching duties...</p>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-white border-t border-gray-200 mt-20 py-8">
+        <div class="max-w-6xl mx-auto px-4 text-center text-sm text-gray-500">
+            <p>&copy; 2026 Mattia de' Michieli Vitturi. Open-source tracking automated via GitHub Actions.</p>
+        </div>
+    </footer>
+
+    <script>
+        let journalPapers = [];
+        let otherPublications = [];
+        let currentType = 'paper';
+
+        document.addEventListener("DOMContentLoaded", () => {
+            Promise.all([
+                fetch('data/scholar_github.json').then(r => r.json()).catch(() => null),
+                fetch('data/other_publications.json').then(r => r.json()).catch(() => []),
+                fetch('data/projects.json').then(r => r.json()).catch(() => []),
+                fetch('data/teaching.json').then(r => r.json()).catch(() => [])
+            ]).then(([dynamicData, otherPubs, projectsData, teachingData]) => {
+                
+                // 1. Scholar Metrics & Journal Papers
+                if (dynamicData) {
+                    if (dynamicData.metrics) {
+                        document.getElementById('stat-citations').innerText = dynamicData.metrics.total_citations || 0;
+                        document.getElementById('stat-hindex').innerText = dynamicData.metrics.h_index || 0;
+                        document.getElementById('stat-i10index').innerText = dynamicData.metrics.i10_index || 0;
+                    }
+                    journalPapers = dynamicData.publications || [];
+                    renderGitHubRepos(dynamicData.repositories || []);
+                } else {
+                    document.getElementById('github-list').innerHTML = '<p class="text-red-500 italic col-span-2">Failed to load GitHub data.</p>';
+                }
+
+                // 2. Static Publications (Books / Chapters)
+                otherPublications = otherPubs || [];
+                renderPublications();
+
+                // 3. Projects
+                renderProjects(projectsData);
+
+                // 4. Teaching
+                renderTeaching(teachingData);
+
+            }).catch(error => {
+                console.error("Error loading JSON data:", error);
+            });
+        });
+
+        function filterPublications(type) {
+            currentType = type;
+            ['paper', 'book', 'chapter'].forEach(t => {
+                document.getElementById(`tab-${t}`).classList.remove('tab-active');
+            });
+            document.getElementById(`tab-${type}`).classList.add('tab-active');
+            
+            // Show/Hide Notice Banner only for Journal Papers
+            const noticeBanner = document.getElementById('scholar-notice');
+            if (type === 'paper') {
+                noticeBanner.classList.remove('hidden');
+            } else {
+                noticeBanner.classList.add('hidden');
+            }
+
+            renderPublications();
+        }
+
+        function renderPublications() {
+            const listContainer = document.getElementById('publications-list');
+            listContainer.innerHTML = '';
+
+            if (currentType === 'paper') {
+                if (journalPapers.length > 0) {
+                    journalPapers.forEach(pub => {
+                        listContainer.innerHTML += `
+                            <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
+                                <div class="space-y-1">
+                                    <h4 class="text-base font-semibold text-gray-900">${pub.title}</h4>
+                                    <p class="text-xs text-gray-500">${pub.authors}</p>
+                                    <p class="text-xs text-gray-600"><em>${pub.journal || 'Journal'}</em> — <strong>${pub.year}</strong></p>
+                                </div>
+                                <div class="whitespace-nowrap self-start sm:self-center">
+                                    <span class="text-xs px-2.5 py-1 bg-blue-50 text-blue-700 border border-blue-200 font-bold rounded-md">
+                                        Citations: ${pub.citations || 0}
+                                    </span>
+                                </div>
+                            </div>
+                        `;
+                    });
+                } else {
+                    listContainer.innerHTML = `<p class="text-sm text-gray-400 italic">No recent journal papers found.</p>`;
+                }
+            } else {
+                // Filter Books or Book Chapters from other_publications.json
+                const filtered = otherPublications.filter(pub => (pub.type || '').toLowerCase() === currentType);
+                if (filtered.length > 0) {
+                    filtered.forEach(pub => {
+                        listContainer.innerHTML += `
+                            <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm">
+                                <h4 class="text-base font-semibold text-gray-900">${pub.title}</h4>
+                                <p class="text-xs text-gray-500 mt-0.5">${pub.authors} (${pub.year})</p>
+                                <p class="text-xs text-gray-600 mt-1">
+                                    ${pub.book_title ? `In: <em>${pub.book_title}</em> — ` : ''} ${pub.publisher} ${pub.pages ? `, pp. ${pub.pages}` : ''}
+                                </p>
+                            </div>
+                        `;
+                    });
+                } else {
+                    listContainer.innerHTML = `<p class="text-sm text-gray-400 italic">No entries listed under this category.</p>`;
+                }
+            }
+        }
+
+        function renderGitHubRepos(repos) {
+            const githubList = document.getElementById('github-list');
+            githubList.innerHTML = '';
+            if (repos.length > 0) {
+                repos.forEach(repo => {
+                    githubList.innerHTML += `
+                        <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition flex flex-col justify-between">
+                            <div>
+                                <div class="flex justify-between items-start gap-2 mb-2">
+                                    <a href="${repo.url}" target="_blank" class="text-lg font-semibold text-blue-600 hover:underline flex items-center gap-1.5 break-all">
+                                        <i class="fa-solid fa-code-branch text-sm text-gray-400"></i>${repo.name}
+                                    </a>
+                                    <span class="text-xs px-2 py-0.5 bg-gray-100 border border-gray-200 rounded-full font-medium text-gray-600">${repo.language || 'Code'}</span>
+                                </div>
+                                <p class="text-sm text-gray-600 mb-4">${repo.description || 'No description provided.'}</p>
+                            </div>
+                            <div class="flex gap-4 text-xs text-gray-500 border-t border-gray-100 pt-3">
+                                <span><i class="fa-regular fa-star mr-1"></i>${repo.stars || 0} stars</span>
+                                <span><i class="fa-solid fa-arrow-up-right-from-square mr-1"></i>GitHub</span>
+                            </div>
+                        </div>
+                    `;
+                });
+            } else {
+                githubList.innerHTML = '<p class="text-gray-500 italic col-span-2">No repositories loaded.</p>';
+            }
+        }
+
+        function renderProjects(projects) {
+            const container = document.getElementById('projects-list');
+            container.innerHTML = '';
+            if (projects.length > 0) {
+                projects.forEach(project => {
+                    container.innerHTML += `
+                        <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-sm">
+                            <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-1 mb-2">
+                                <h3 class="text-lg font-bold text-gray-900">${project.title}</h3>
+                                <span class="text-xs font-semibold uppercase px-2 py-1 bg-blue-50 text-blue-700 border border-blue-200 rounded-md whitespace-nowrap self-start">${project.period}</span>
+                            </div>
+                            <p class="text-sm text-gray-700 mb-1"><strong class="text-gray-900">Role:</strong> ${project.role}</p>
+                            <p class="text-xs text-gray-500"><i class="fa-solid fa-building-columns mr-1"></i>Funding: ${project.funding_agency || project.funding}</p>
+                        </div>
+                    `;
+                });
+            } else {
+                container.innerHTML = '<p class="text-gray-500 italic">No research projects listed.</p>';
+            }
+        }
+
+        function renderTeaching(teaching) {
+            const container = document.getElementById('teaching-list');
+            container.innerHTML = '';
+            if (teaching.length > 0) {
+                teaching.forEach(course => {
+                    container.innerHTML += `
+                        <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-sm flex flex-col justify-between">
+                            <div>
+                                <div class="flex justify-between items-start gap-2 mb-2">
+                                    <h3 class="text-base font-bold text-gray-900">${course.course || course.title}</h3>
+                                    ${course.cfu ? `<span class="text-xs px-2 py-0.5 bg-indigo-50 border border-indigo-100 text-indigo-700 rounded-full font-bold whitespace-nowrap">${course.cfu} CFU</span>` : ''}
+                                </div>
+                                <p class="text-xs text-gray-500 font-medium mb-1"><i class="fa-solid fa-building-columns mr-1"></i>${course.institution || course.degree}</p>
+                                <p class="text-xs text-emerald-600 font-medium mb-3"><i class="fa-regular fa-calendar mr-1"></i>${course.period}</p>
+                                <p class="text-sm text-gray-600">${course.details || course.info || ''}</p>
+                            </div>
+                        </div>
+                    `;
+                });
+            } else {
+                container.innerHTML = '<p class="text-gray-500 italic col-span-2">No teaching courses registered.</p>';
+            }
+        }
+    </script>
 </body>
 </html>
