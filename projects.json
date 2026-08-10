@@ -1,0 +1,63 @@
+[
+  {
+    "period": "2023-2026",
+    "title": "Center of Excellence for Exascale in Solid Earth (ChEESE-2P)",
+    "funding_agency": "HORIZON-JU-RIA",
+    "role": "Task leader"
+  },
+  {
+    "period": "2023-2025",
+    "title": "PRIN 2022 HEATED - PHreatic Eruptions at AcTive volcanoEs: processes, source parameters and physical models of eruption Dynamics",
+    "funding_agency": "MUR (PRIN)",
+    "role": "Responsabile di Unità di Ricerca"
+  },
+  {
+    "period": "2023-oggi",
+    "title": "VICTOR - Volcanology Infrastructure for Computational Tools and Resources",
+    "funding_agency": "NSF",
+    "role": "Membro dell’advisory board"
+  },
+  {
+    "period": "2022-2025",
+    "title": "Piano Triennale per il Funzionamento del CPV - Task 3 (modellistica fisico-matematica e simulazione numerica per la pericolosità associata a unrest a Vulcano)",
+    "funding_agency": "INGV (CPV)",
+    "role": "Referente"
+  },
+  {
+    "period": "2022-2025",
+    "title": "Progetto Reti Multiparametriche - Task Vulcani-A4 (infrastruttura di calcolo per scenari di dispersione e ricaduta di tefra)",
+    "funding_agency": "INGV",
+    "role": "Referente"
+  },
+  {
+    "period": "2022-2025",
+    "title": "Convenzione INGV-DPC All.B-Task 2.2 (stima probabilistica della pericolosità da maremoti generati da collassi di versante e valanghe piroclastiche)",
+    "funding_agency": "Dipartimento della Protezione Civile",
+    "role": "Task leader"
+  },
+  {
+    "period": "2021-2025",
+    "title": "NSF Collaborative Research: Linking pyroclastic surge dynamics and deposits through integration of field data, multiphase numerical modeling, and experiments",
+    "funding_agency": "NSF",
+    "role": "Co-Principal Investigator"
+  },
+  {
+    "period": "2019-2021",
+    "title": "Convenzione INGV-DPC All.B2-Task 12 (database di simulazioni numeriche e mappe di invasione alle Isole Eolie e Tirreno meridionale per onde di tsunami da frane)",
+    "funding_agency": "Dipartimento della Protezione Civile",
+    "role": "Task leader"
+  },
+  {
+    "period": "2016-2020",
+    "title": "NSFGEO-NERC: Quantifying disequilibrium processes in basaltic volcanism (DisEqm)",
+    "funding_agency": "NSFGEO-NERC",
+    "role": "Membro dello Steering Committee"
+  },
+  {
+    "period": "2010-2012",
+    "title": "Marie Curie IOF: Magma Ascent Mathematical Modeling and Analysis",
+    "funding_agency": "Comunità Europea",
+    "role": "Principal Investigator",
+    "notes": "Contributo UE: 190.933,70 euro"
+  }
+]

@@ -1,0 +1,80 @@
+[
+  {
+    "period": "2026-2027",
+    "course": "Mechanics of Geophysical Fluids",
+    "institution": "Corso di Laurea Magistrale in Fisica, Università di Pisa",
+    "details": "Codocenza gratuita, corso da 9 CFU (54 ore complessive, 18 ore a carico del docente), secondo semestre"
+  },
+  {
+    "period": "2025-2026",
+    "course": "Mechanics of Geophysical Fluids",
+    "institution": "Dipartimento di Fisica, Università di Pisa",
+    "details": "Codocenza gratuita, corso da 9 CFU (54 ore complessive, 18 ore a carico del docente), secondo semestre"
+  },
+  {
+    "period": "Ott.-Dic. 2025",
+    "course": "Introduzione alla programmazione in Python: dalle basi all’analisi dati",
+    "institution": "Sezione di Pisa dell’INGV",
+    "details": "Docente nel corso di formazione per complessive 20 ore di docenza"
+  },
+  {
+    "period": "2023-2024",
+    "course": "Computational Fluid Dynamics",
+    "institution": "Scuola di Dottorato in Matematica dell’Università di Pisa",
+    "details": "Docente del corso"
+  },
+  {
+    "period": "2021",
+    "course": "Advanced Physical Volcanology & Geologic Hazards and Risk",
+    "institution": "Department of Geology, University at Buffalo, USA",
+    "details": "Docente dei corsi"
+  },
+  {
+    "period": "2020",
+    "course": "Introduction to Computational Fluid Dynamics for Earth Sciences",
+    "institution": "Scuola di Dottorato in Scienze della Terra, Università di Firenze",
+    "details": "Docente del corso"
+  },
+  {
+    "period": "2017",
+    "course": "Introduction to Computational Fluid Dynamics for Earth Sciences",
+    "institution": "Scuole di Dottorato in Scienze della Terra delle Università di Pisa, Siena e Firenze",
+    "details": "Docente del corso"
+  },
+  {
+    "period": "2015-2016",
+    "course": "Computational Fluid Dynamics for Volcanology",
+    "institution": "Scuole di Dottorato in Matematica (UniPI) e Scienze della Terra (UniFI)",
+    "details": "Docente del corso"
+  },
+  {
+    "period": "2015",
+    "course": "International School 'Thermo-fluid Dynamics in Computational Volcanology'",
+    "institution": "INGV Pisa / NEMOH",
+    "details": "Direttore e docente della scuola (23 studenti da 10 nazioni)"
+  },
+  {
+    "period": "2013-2014",
+    "course": "The OpenFOAM framework for the development of numerical models for geophysical applications and research",
+    "institution": "INGV Pisa",
+    "details": "Organizzatore e docente del corso"
+  },
+  {
+    "period": "2013",
+    "course": "Forward Modelling of Volcanic Processes",
+    "institution": "University of Bristol, UK (Progetto NEMOH)",
+    "details": "Invited lecturer"
+  },
+  {
+    "period": "2011-2012",
+    "course": "Numerical Methods for Geophysical Fluid Dynamics",
+    "institution": "Arizona State University",
+    "details": "Docente del corso"
+  },
+  {
+    "period": "2009-2010",
+    "course": "Introduzione ai modelli matematici in Geofisica e Vulcanologia",
+    "institution": "Laurea Magistrale in Matematica, Università di Pisa",
+    "details": "Docente del corso"
+  }
+]

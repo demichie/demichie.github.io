@@ -1,0 +1,36 @@
+[
+  {
+    "type": "Book",
+    "authors": "M. de’ Michieli Vitturi",
+    "title": "[Titolo da completare]",
+    "publisher": "Amazon Kindle Direct Publishing",
+    "year": "Da completare",
+    "notes": "ASIN B0FQWY1WRN"
+  },
+  {
+    "type": "Book Chapter",
+    "authors": "D. Karátson, J. C. Thouret, et al.",
+    "title": "Chapter 11 Methods and Techniques for Studying Volcanic Landforms",
+    "book_title": "Volcano Geomorphology: Landforms, Processes, and Hazards",
+    "publisher": "Springer",
+    "year": "2025"
+  },
+  {
+    "type": "Book Chapter",
+    "authors": "A. Neri, T. Esposti Ongaro, M. de’ Michieli Vitturi, and M. Cerminara",
+    "title": "Multiphase flow modeling of explosive volcanic eruptions",
+    "book_title": "Transport Phenomena in Multiphase Systems",
+    "publisher": "Springer International Publishing",
+    "year": "2021",
+    "pages": "243-281"
+  },
+  {
+    "type": "Book Chapter",
+    "authors": "M. de’ Michieli Vitturi and A. Aravena",
+    "title": "Numerical modeling of magma ascent dynamics",
+    "book_title": "Forecasting and Planning for Volcanic Hazards, Risks, and Disasters",
+    "publisher": "Elsevier",
+    "year": "2021",
+    "pages": "239-284"
+  }
+]
