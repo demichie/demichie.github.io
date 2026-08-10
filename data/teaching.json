@@ -21,31 +21,36 @@
     "period": "2023-2024",
     "course": "Computational Fluid Dynamics",
     "institution": "Scuola di Dottorato in Matematica dell’Università di Pisa",
-    "details": "Docente del corso"
+    "details": "Docente"
   },
   {
     "period": "2021",
-    "course": "Advanced Physical Volcanology & Geologic Hazards and Risk",
+    "course": "Geologic Hazards and Risk",
     "institution": "Department of Geology, University at Buffalo, USA",
-    "details": "Docente dei corsi"
+    "details": "Docente"
   },
   {
+    "period": "2021",
+    "course": "Advanced Physical Volcanology",
+    "institution": "Department of Geology, University at Buffalo, USA",
+    "details": "Docente"
+  },  {
     "period": "2020",
     "course": "Introduction to Computational Fluid Dynamics for Earth Sciences",
     "institution": "Scuola di Dottorato in Scienze della Terra, Università di Firenze",
-    "details": "Docente del corso"
+    "details": "Docente"
   },
   {
     "period": "2017",
     "course": "Introduction to Computational Fluid Dynamics for Earth Sciences",
     "institution": "Scuole di Dottorato in Scienze della Terra delle Università di Pisa, Siena e Firenze",
-    "details": "Docente del corso"
+    "details": "Docente"
   },
   {
     "period": "2015-2016",
     "course": "Computational Fluid Dynamics for Volcanology",
     "institution": "Scuole di Dottorato in Matematica (UniPI) e Scienze della Terra (UniFI)",
-    "details": "Docente del corso"
+    "details": "Docente"
   },
   {
     "period": "2015",
