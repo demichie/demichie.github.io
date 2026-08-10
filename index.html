@@ -34,7 +34,10 @@
 
         <!-- METRICS SECTION -->
         <section id="metrics" class="scroll-mt-20">
-            <div class="mb-4 text-right">
+            <div class="mb-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
+                <p id="metrics-last-updated" class="text-xs text-gray-500 italic">
+                    <!-- Popolato dinamicamente da JS -->
+                </p>
                 <a href="https://scholar.google.com/citations?user=6ev_1zUAAAAJ&hl=en" target="_blank" class="text-sm text-blue-600 hover:underline font-medium inline-flex items-center gap-1">
                     <i class="fa-solid fa-graduation-cap"></i> View Full Google Scholar Profile &rarr;
                 </a>
@@ -162,6 +165,12 @@
                         document.getElementById('stat-hindex').innerText = dynamicData.metrics.h_index || 0;
                         document.getElementById('stat-i10index').innerText = dynamicData.metrics.i10_index || 0;
                     }
+
+                    const lastUpdatedElem = document.getElementById('metrics-last-updated');
+                    if (dynamicData.last_updated && lastUpdatedElem) {
+                        lastUpdatedElem.innerHTML = `<i class="fa-regular fa-clock mr-1"></i>Last updated: <strong>${dynamicData.last_updated}</strong>`;
+                    }
+
                     journalPapers = dynamicData.publications || [];
                     renderGitHubRepos(dynamicData.repositories || []);
                 } else {

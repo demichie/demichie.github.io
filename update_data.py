@@ -2,6 +2,7 @@ import json
 import os
 import re
 import sys
+from datetime import datetime
 import requests
 from bs4 import BeautifulSoup
 
@@ -131,6 +132,7 @@ def main():
     github_repos = get_github_data()
 
     output_data = {
+        "last_updated": datetime.utcnow().strftime("%Y-%m-%d %H:%M UTC"),
         "metrics": scholar_metrics if scholar_metrics else {"total_citations": 0, "h_index": 0, "i10_index": 0},
         "publications": publications if publications else [],
         "repositories": github_repos if github_repos else []
