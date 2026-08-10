@@ -21,6 +21,7 @@
             </div>
             <nav class="flex flex-wrap justify-center gap-1 text-sm font-medium">
                 <a href="#metrics" class="px-3 py-2 text-gray-600 hover:text-blue-600 rounded-md transition">Metrics</a>
+                <a href="#education" class="px-3 py-2 text-gray-600 hover:text-blue-600 rounded-md transition">Education</a>
                 <a href="#publications" class="px-3 py-2 text-gray-600 hover:text-blue-600 rounded-md transition">Publications</a>
                 <a href="#code" class="px-3 py-2 text-gray-600 hover:text-blue-600 rounded-md transition">Software</a>
                 <a href="#projects" class="px-3 py-2 text-gray-600 hover:text-blue-600 rounded-md transition">Research</a>
@@ -60,6 +61,16 @@
                         <h3 id="stat-i10index" class="text-3xl font-bold text-gray-900">0</h3>
                     </div>
                 </div>
+            </div>
+        </section>
+
+        <!-- EDUCATION SECTION -->
+        <section id="education" class="scroll-mt-20">
+            <h2 class="text-2xl font-bold text-gray-900 flex items-center gap-2 border-b border-gray-200 pb-4 mb-6">
+                <i class="fa-solid fa-user-graduate text-blue-600"></i> Education
+            </h2>
+            <div id="education-list" class="grid grid-cols-1 gap-4">
+                <p class="text-gray-500 italic">Loading education details...</p>
             </div>
         </section>
 
@@ -138,10 +149,11 @@
         document.addEventListener("DOMContentLoaded", () => {
             Promise.all([
                 fetch('data/scholar_github.json').then(r => r.json()).catch(() => null),
+                fetch('data/education.json').then(r => r.json()).catch(() => []),
                 fetch('data/other_publications.json').then(r => r.json()).catch(() => []),
                 fetch('data/projects.json').then(r => r.json()).catch(() => []),
                 fetch('data/teaching.json').then(r => r.json()).catch(() => [])
-            ]).then(([dynamicData, otherPubs, projectsData, teachingData]) => {
+            ]).then(([dynamicData, educationData, otherPubs, projectsData, teachingData]) => {
                 
                 // 1. Scholar Metrics & Journal Papers
                 if (dynamicData) {
@@ -156,20 +168,45 @@
                     document.getElementById('github-list').innerHTML = '<p class="text-red-500 italic col-span-2">Failed to load GitHub data.</p>';
                 }
 
-                // 2. Static Publications (Books / Chapters)
+                // 2. Education
+                renderEducation(educationData);
+
+                // 3. Static Publications (Books / Chapters)
                 otherPublications = otherPubs || [];
                 renderPublications();
 
-                // 3. Projects
+                // 4. Projects
                 renderProjects(projectsData);
 
-                // 4. Teaching
+                // 5. Teaching
                 renderTeaching(teachingData);
 
             }).catch(error => {
                 console.error("Error loading JSON data:", error);
             });
         });
+
+        function renderEducation(education) {
+            const container = document.getElementById('education-list');
+            container.innerHTML = '';
+            if (education && education.length > 0) {
+                education.forEach(item => {
+                    container.innerHTML += `
+                        <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-sm">
+                            <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-1 mb-1">
+                                <h3 class="text-lg font-bold text-gray-900">${item.degree}</h3>
+                                <span class="text-xs font-semibold px-2 py-1 bg-gray-100 border border-gray-200 text-gray-700 rounded-md whitespace-nowrap self-start">${item.year}</span>
+                            </div>
+                            <p class="text-sm font-medium text-blue-600 mb-2">${item.institution}</p>
+                            ${item.thesis ? `<p class="text-xs text-gray-600 mb-1"><strong>Thesis:</strong> <em>${item.thesis}</em></p>` : ''}
+                            ${item.advisor ? `<p class="text-xs text-gray-500"><strong>Advisor:</strong> ${item.advisor}</p>` : ''}
+                        </div>
+                    `;
+                });
+            } else {
+                container.innerHTML = '<p class="text-gray-500 italic">No education entries found.</p>';
+            }
+        }
 
         function filterPublications(type) {
             currentType = type;
@@ -215,8 +252,17 @@
                     listContainer.innerHTML = `<p class="text-sm text-gray-400 italic">No recent journal papers found.</p>`;
                 }
             } else {
-                // Filter Books or Book Chapters from other_publications.json
-                const filtered = otherPublications.filter(pub => (pub.type || '').toLowerCase() === currentType);
+                // Filter Books or Book Chapters with flexible matching
+                const filtered = otherPublications.filter(pub => {
+                    const pubType = (pub.type || '').toLowerCase();
+                    if (currentType === 'book') {
+                        return pubType === 'book';
+                    } else if (currentType === 'chapter') {
+                        return pubType === 'chapter' || pubType === 'book_chapter' || pubType === 'book chapter';
+                    }
+                    return false;
+                });
+
                 if (filtered.length > 0) {
                     filtered.forEach(pub => {
                         listContainer.innerHTML += `
@@ -224,8 +270,9 @@
                                 <h4 class="text-base font-semibold text-gray-900">${pub.title}</h4>
                                 <p class="text-xs text-gray-500 mt-0.5">${pub.authors} (${pub.year})</p>
                                 <p class="text-xs text-gray-600 mt-1">
-                                    ${pub.book_title ? `In: <em>${pub.book_title}</em> — ` : ''} ${pub.publisher} ${pub.pages ? `, pp. ${pub.pages}` : ''}
+                                    ${pub.book_title ? `In: <em>${pub.book_title}</em> — ` : ''} ${pub.publisher || ''} ${pub.pages ? `, pp. ${pub.pages}` : ''}
                                 </p>
+                                ${pub.notes ? `<p class="text-xs text-gray-400 mt-1 italic">${pub.notes}</p>` : ''}
                             </div>
                         `;
                     });
@@ -275,7 +322,7 @@
                                 <span class="text-xs font-semibold uppercase px-2 py-1 bg-blue-50 text-blue-700 border border-blue-200 rounded-md whitespace-nowrap self-start">${project.period}</span>
                             </div>
                             <p class="text-sm text-gray-700 mb-1"><strong class="text-gray-900">Role:</strong> ${project.role}</p>
-                            <p class="text-xs text-gray-500"><i class="fa-solid fa-building-columns mr-1"></i>Funding: ${project.funding_agency || project.funding}</p>
+                            <p class="text-xs text-gray-500"><i class="fa-solid fa-building-columns mr-1"></i>Funding: ${project.funding_agency || project.funding || 'N/A'}</p>
                         </div>
                     `;
                 });
@@ -296,7 +343,7 @@
                                     <h3 class="text-base font-bold text-gray-900">${course.course || course.title}</h3>
                                     ${course.cfu ? `<span class="text-xs px-2 py-0.5 bg-indigo-50 border border-indigo-100 text-indigo-700 rounded-full font-bold whitespace-nowrap">${course.cfu} CFU</span>` : ''}
                                 </div>
-                                <p class="text-xs text-gray-500 font-medium mb-1"><i class="fa-solid fa-building-columns mr-1"></i>${course.institution || course.degree}</p>
+                                <p class="text-xs text-gray-500 font-medium mb-1"><i class="fa-solid fa-building-columns mr-1"></i>${course.institution || course.degree || ''}</p>
                                 <p class="text-xs text-emerald-600 font-medium mb-3"><i class="fa-regular fa-calendar mr-1"></i>${course.period}</p>
                                 <p class="text-sm text-gray-600">${course.details || course.info || ''}</p>
                             </div>
