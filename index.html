@@ -1,104 +1,229 @@
 <!DOCTYPE html>
-<html lang="it">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Academic Profile</title>
+    <title>Academic Profile - Mattia de' Michieli Vitturi</title>
     <style>
         :root {
-            --bg-color: #f8f9fa;
-            --text-color: #333;
-            --primary-color: #0066cc;
+            --bg-color: #f8fafc;
+            --text-color: #1e293b;
+            --primary-color: #2563eb;
+            --primary-hover: #1d4ed8;
             --card-bg: #ffffff;
             --border-color: #e2e8f0;
+            --subtext-color: #64748b;
         }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
             line-height: 1.6;
             color: var(--text-color);
             background-color: var(--bg-color);
             margin: 0;
             padding: 0;
         }
+
         .container {
-            max-width: 900px;
+            max-width: 960px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 40px 20px;
         }
+
         header {
             margin-bottom: 40px;
             border-bottom: 2px solid var(--border-color);
             padding-bottom: 20px;
         }
+
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            color: #0f172a;
+        }
+
         section {
-            margin-bottom: 40px;
+            margin-bottom: 45px;
         }
+
         h2 {
+            font-size: 1.5rem;
             color: var(--primary-color);
-            border-bottom: 1px solid var(--border-color);
+            border-bottom: 2px solid var(--border-color);
             padding-bottom: 8px;
-        }
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px;
             margin-bottom: 20px;
         }
+
+        /* Scholar Metrics Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
         .stat-card {
             background: var(--card-bg);
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            padding: 16px;
+            border-radius: 10px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
             text-align: center;
             border: 1px solid var(--border-color);
         }
+
         .stat-value {
-            font-size: 1.5rem;
-            font-weight: bold;
+            font-size: 1.8rem;
+            font-weight: 700;
             color: var(--primary-color);
         }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--subtext-color);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 4px;
+        }
+
+        /* Generic Item Card */
         .item-card {
             background: var(--card-bg);
-            padding: 15px;
+            padding: 20px;
             margin-bottom: 15px;
-            border-radius: 8px;
+            border-radius: 10px;
             border: 1px solid var(--border-color);
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
+
+        .item-card:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
         .item-title {
-            font-weight: bold;
+            font-weight: 600;
             font-size: 1.1rem;
-            margin-bottom: 5px;
+            color: #0f172a;
+            margin-bottom: 6px;
         }
+
         .item-sub {
-            color: #666;
-            font-size: 0.95rem;
-            margin-bottom: 5px;
+            color: var(--subtext-color);
+            font-size: 0.92rem;
+            margin-bottom: 8px;
         }
+
+        /* Grid specific for GitHub Repositories */
+        .repo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .repo-card {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .repo-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .repo-desc {
+            font-size: 0.9rem;
+            color: #334155;
+            margin: 10px 0 15px 0;
+            flex-grow: 1;
+        }
+
+        .repo-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: auto;
+            padding-top: 10px;
+            border-top: 1px dashed var(--border-color);
+        }
+
+        /* Tags and Badges */
         .tag {
             display: inline-block;
-            background: #e2e8f0;
-            padding: 2px 8px;
-            border-radius: 4px;
-            font-size: 0.85rem;
-            font-weight: 500;
+            background: #f1f5f9;
+            color: #475569;
+            padding: 3px 10px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 600;
         }
-        .repo-link {
-            display: inline-block;
-            margin-top: 8px;
+
+        .lang-tag {
+            background: #eff6ff;
+            color: var(--primary-color);
+        }
+
+        /* Buttons & Links */
+        .btn-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
             color: var(--primary-color);
             text-decoration: none;
+            font-weight: 600;
             font-size: 0.9rem;
         }
-        .repo-link:hover {
+
+        .btn-link:hover {
             text-decoration: underline;
         }
+
+        .scholar-banner {
+            background: #f0f9ff;
+            border: 1px solid #bae6fd;
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .scholar-banner p {
+            margin: 0;
+            font-size: 0.95rem;
+            color: #0369a1;
+        }
+
+        .btn-scholar {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 0.88rem;
+            font-weight: 600;
+            transition: background 0.2s ease;
+        }
+
+        .btn-scholar:hover {
+            background-color: var(--primary-hover);
+        }
+
         .error-msg {
-            color: #cc0000;
-            background: #ffe6e6;
+            color: #991b1b;
+            background: #fef2f2;
             padding: 15px;
             border-radius: 8px;
-            border: 1px solid #ffcccc;
+            border: 1px solid #fecaca;
         }
     </style>
 </head>
@@ -106,40 +231,47 @@
 
 <div class="container">
     <header>
-        <h1 id="prof-name">Academic Profile</h1>
+        <h1 id="prof-name">Mattia de' Michieli Vitturi</h1>
+        <div class="item-sub">Senior Researcher at INGV (Istituto Nazionale di Geofisica e Vulcanologia)</div>
         <div class="stats-grid" id="scholar-metrics">
-            <!-- Le metriche citazionali verranno inserite qui -->
+            <!-- Scholar metrics loaded dynamically -->
         </div>
     </header>
 
     <section id="sec-education">
-        <h2>Formazione</h2>
+        <h2>Education</h2>
         <div id="education-content"></div>
     </section>
 
     <section id="sec-projects">
-        <h2>Progetti di Ricerca</h2>
+        <h2>Research Projects</h2>
         <div id="projects-content"></div>
     </section>
 
     <section id="sec-teaching">
-        <h2>Didattica & Corsi</h2>
+        <h2>Teaching & Courses</h2>
         <div id="teaching-content"></div>
     </section>
 
     <section id="sec-publications">
-        <h2>Pubblicazioni su Rivista</h2>
+        <h2>Journal Publications</h2>
+        <div class="scholar-banner">
+            <p>Showing the 20 most recent publications automatically synced from Google Scholar.</p>
+            <a href="https://scholar.google.com/citations?user=6ev_1zUAAAAJ&hl=en" target="_blank" class="btn-scholar">
+                View Full Profile on Google Scholar ↗
+            </a>
+        </div>
         <div id="publications-content"></div>
     </section>
 
     <section id="sec-other-pub">
-        <h2>Libri e Capitoli di Libro</h2>
+        <h2>Books & Book Chapters</h2>
         <div id="other-pub-content"></div>
     </section>
 
     <section id="sec-github">
-        <h2>Codici & Repository GitHub</h2>
-        <div id="github-content"></div>
+        <h2>Software & Repositories</h2>
+        <div id="github-content" class="repo-grid"></div>
     </section>
 </div>
 
@@ -150,7 +282,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 async function loadWebsiteData() {
     try {
-        // Carica in parallelo i file statici locali e il file dinamico aggiornato da Python
+        // Parallel load of local static JSONs and Python generated dynamic JSON
         const [education, projects, teaching, otherPubs, dynamicData] = await Promise.all([
             fetch('data/education.json').then(res => res.json()),
             fetch('data/projects.json').then(res => res.json()),
@@ -159,23 +291,23 @@ async function loadWebsiteData() {
             fetch('data/scholar_github.json').then(res => res.json())
         ]);
 
-        // Esegue il rendering di ciascuna sezione
+        // Render static sections
         renderEducation(education);
         renderProjects(projects);
         renderTeaching(teaching);
         renderOtherPublications(otherPubs);
         
-        // Esegue il rendering dei dati dinamici (Google Scholar & GitHub)
+        // Render dynamic sections (Scholar & GitHub)
         renderScholarMetrics(dynamicData.metrics);
         renderJournalPapers(dynamicData.publications);
         renderGitHubRepositories(dynamicData.repositories);
 
     } catch (error) {
-        console.error("Errore nel caricamento dei dati del sito:", error);
+        console.error("Error loading profile data:", error);
         const containers = ['education-content', 'projects-content', 'teaching-content', 'publications-content', 'other-pub-content', 'github-content'];
         containers.forEach(id => {
             const el = document.getElementById(id);
-            if (el) el.innerHTML = `<p class="error-msg">Impossibile caricare i dati in questo momento.</p>`;
+            if (el) el.innerHTML = `<p class="error-msg">Unable to load data at this time.</p>`;
         });
     }
 }
@@ -186,8 +318,8 @@ function renderEducation(data) {
         <div class="item-card">
             <div class="item-title">${item.degree}</div>
             <div class="item-sub">${item.institution} — ${item.year}</div>
-            <div style="font-size: 0.9rem; margin-top: 5px;"><em>Tesi: ${item.thesis}</em></div>
-            <div style="font-size: 0.9rem; color: #555;">Relatore: ${item.advisor}</div>
+            <div style="font-size: 0.9rem; margin-top: 5px;"><em>Thesis: ${item.thesis}</em></div>
+            <div style="font-size: 0.9rem; color: #64748b;">Advisor: ${item.advisor}</div>
         </div>
     `).join('');
 }
@@ -197,8 +329,8 @@ function renderProjects(data) {
     container.innerHTML = data.map(item => `
         <div class="item-card">
             <div class="item-title">${item.title}</div>
-            <div class="item-sub">Periodo: ${item.period} | Ente Finanziatore: ${item.funding_agency}</div>
-            <div><span class="tag">${item.role}</span> ${item.notes ? `<small style="color:#666; margin-left:10px;">${item.notes}</small>` : ''}</div>
+            <div class="item-sub">Period: ${item.period} | Funding Agency: ${item.funding_agency}</div>
+            <div><span class="tag">${item.role}</span> ${item.notes ? `<small style="color:#64748b; margin-left:10px;">${item.notes}</small>` : ''}</div>
         </div>
     `).join('');
 }
@@ -209,7 +341,7 @@ function renderTeaching(data) {
         <div class="item-card">
             <div class="item-title">${item.course}</div>
             <div class="item-sub">${item.institution} — ${item.period}</div>
-            <div style="font-size: 0.9rem; color: #444; margin-top: 5px;">${item.details}</div>
+            <div style="font-size: 0.9rem; color: #334155; margin-top: 5px;">${item.details}</div>
         </div>
     `).join('');
 }
@@ -220,10 +352,10 @@ function renderOtherPublications(data) {
         <div class="item-card">
             <div class="item-title">${item.title}</div>
             <div class="item-sub">${item.authors} (${item.year})</div>
-            <div style="font-size: 0.9rem; color: #555;">
-                <span class="tag" style="background:#edf2f7;">${item.type}</span> 
-                ${item.book_title ? `In: <em>${item.book_title}</em> — ` : ''} ${item.publisher} ${item.pages ? `, PP. ${item.pages}` : ''}
-                ${item.notes ? `<br><small style="color:#718096;">Nota: ${item.notes}</small>` : ''}
+            <div style="font-size: 0.9rem; color: #475569;">
+                <span class="tag">${item.type}</span> 
+                ${item.book_title ? `In: <em>${item.book_title}</em> — ` : ''} ${item.publisher} ${item.pages ? `, pp. ${item.pages}` : ''}
+                ${item.notes ? `<br><small style="color:#64748b;">Note: ${item.notes}</small>` : ''}
             </div>
         </div>
     `).join('');
@@ -235,15 +367,15 @@ function renderScholarMetrics(metrics) {
     container.innerHTML = `
         <div class="stat-card">
             <div class="stat-value">${metrics.total_citations || 0}</div>
-            <div class="item-sub">Citazioni Totali</div>
+            <div class="stat-label">Citations</div>
         </div>
         <div class="stat-card">
             <div class="stat-value">${metrics.h_index || 0}</div>
-            <div class="item-sub">H-index</div>
+            <div class="stat-label">h-index</div>
         </div>
         <div class="stat-card">
             <div class="stat-value">${metrics.i10_index || 0}</div>
-            <div class="item-sub">i10-index</div>
+            <div class="stat-label">i10-index</div>
         </div>
     `;
 }
@@ -251,16 +383,16 @@ function renderScholarMetrics(metrics) {
 function renderJournalPapers(publications) {
     const container = document.getElementById('publications-content');
     if (!publications || publications.length === 0) {
-        container.innerHTML = '<p>Nessun articolo su rivista trovato.</p>';
+        container.innerHTML = '<p>No journal articles found.</p>';
         return;
     }
     container.innerHTML = publications.map(pub => `
         <div class="item-card">
             <div class="item-title">${pub.title}</div>
             <div class="item-sub">${pub.authors}</div>
-            <div style="font-size: 0.9rem; color: #555;">
-                <em>${pub.journal || 'Rivista non specificata'}</em>, ${pub.year || ''} 
-                ${pub.citations ? `— <small>Citato ${pub.citations} volte</small>` : ''}
+            <div style="font-size: 0.9rem; color: #475569;">
+                <em>${pub.journal || 'Journal Paper'}</em>${pub.year ? `, ${pub.year}` : ''} 
+                ${pub.citations ? `— <small style="color:var(--primary-color); font-weight:600;">Cited ${pub.citations} times</small>` : ''}
             </div>
         </div>
     `).join('');
@@ -269,18 +401,22 @@ function renderJournalPapers(publications) {
 function renderGitHubRepositories(repos) {
     const container = document.getElementById('github-content');
     if (!repos || repos.length === 0) {
-        container.innerHTML = '<p>Nessun codice pubblico trovato.</p>';
+        container.innerHTML = '<p>No public repositories found.</p>';
         return;
     }
     container.innerHTML = repos.map(repo => `
-        <div class="item-card">
-            <div class="item-title">${repo.name}</div>
-            <div style="font-size: 0.9rem; color: #444; margin-top: 4px;">${repo.description || 'Nessuna descrizione disponibile.'}</div>
-            <div style="margin-top: 8px;">
-                ${repo.language ? `<span class="tag" style="background:#feebc8; color:#9c4221;">${repo.language}</span>` : ''}
-                ${repo.stars ? `<span class="tag" style="background:#e2e8f0;">⭐ ${repo.stars}</span>` : ''}
+        <div class="repo-card">
+            <div>
+                <div class="item-title">${repo.name}</div>
+                <div class="repo-desc">${repo.description || 'No description provided.'}</div>
             </div>
-            <a href="${repo.url}" target="_blank" class="repo-link">Vedi su GitHub →</a>
+            <div class="repo-footer">
+                <div>
+                    ${repo.language ? `<span class="tag lang-tag">${repo.language}</span>` : ''}
+                    ${repo.stars !== undefined ? `<span class="tag">⭐ ${repo.stars}</span>` : ''}
+                </div>
+                <a href="${repo.url}" target="_blank" class="btn-link">GitHub ↗</a>
+            </div>
         </div>
     `).join('');
 }
