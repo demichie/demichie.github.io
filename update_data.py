@@ -3,10 +3,11 @@ import os
 import random
 import sys
 import time
+import traceback
 from datetime import datetime, timezone
 
 import requests
-from scholarly import scholarly
+from scholarly import ProxyGenerator, scholarly
 
 # --- CONFIGURAZIONE ---
 GITHUB_USERNAME = "demichie"
@@ -14,19 +15,27 @@ SCHOLAR_ID = "6ev_1zUAAAAJ"
 OUTPUT_FILE = "data/scholar_github.json"
 PUBLICATION_LIMIT = 20
 
-# Pausa casuale tra le due fasi Scholar. I valori possono essere sovrascritti
-# come variabili d'ambiente nel workflow, senza modificare questo file.
 SCHOLAR_DELAY_MIN = int(os.environ.get("SCHOLAR_DELAY_MIN", "90"))
 SCHOLAR_DELAY_MAX = int(os.environ.get("SCHOLAR_DELAY_MAX", "180"))
+USE_FREE_PROXY_FALLBACK = os.environ.get("SCHOLAR_FREE_PROXY_FALLBACK", "true").lower() in {
+    "1", "true", "yes", "on"
+}
 
-# Limita i retry automatici di scholarly: se Google blocca il runner e' meglio
-# conservare i dati precedenti che generare molte richieste ravvicinate.
+# Keep scholarly conservative. A failed GitHub-hosted runner IP should not create
+# a burst of retries against Google Scholar.
 scholarly.set_retries(1)
 scholarly.set_timeout(30)
 
+# Tracks the connection currently configured inside scholarly.
+_scholar_connection_source = "direct"
+
+
+def utc_now_string():
+    return datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
+
 
 def load_existing_output():
-    """Carica il JSON esistente per usarlo come fallback in caso di blocco."""
+    """Load the existing JSON so failed Scholar phases never erase good data."""
     if not os.path.exists(OUTPUT_FILE):
         return {}
 
@@ -39,12 +48,67 @@ def load_existing_output():
         return {}
 
 
-def extract_publications(publications):
-    """Converte le entry 'light' del profilo Scholar nel formato del sito.
+def exception_text(exc):
+    return f"{type(exc).__name__}: {exc}"
 
-    Importante: qui NON viene mai chiamato scholarly.fill(pub), quindi non si
-    aprono le pagine delle singole pubblicazioni.
+
+def configure_fresh_free_proxy():
+    """Configure scholarly to use a newly selected public free proxy.
+
+    This is only a fallback for public Google Scholar profile requests. No
+    GitHub token or other secret is sent through this proxy.
     """
+    global _scholar_connection_source
+
+    print("Trying scholarly FreeProxies() fallback...")
+    pg = ProxyGenerator()
+    success = pg.FreeProxies()
+    if not success:
+        raise RuntimeError("ProxyGenerator.FreeProxies() could not find a working proxy")
+
+    scholarly.use_proxy(pg)
+    _scholar_connection_source = "free_proxy"
+    print("A free proxy was configured successfully.")
+
+
+def run_scholar_phase(label, func):
+    """Run one Scholar phase, retrying once through a fresh free proxy."""
+    global _scholar_connection_source
+
+    first_source = _scholar_connection_source
+    try:
+        print(f"{label}: first attempt using {first_source} connection...")
+        result = func()
+        return result, first_source, None
+    except Exception as first_exc:
+        first_error = exception_text(first_exc)
+        print(f"{label}: attempt via {first_source} failed: {first_error}")
+        traceback.print_exc()
+
+    if not USE_FREE_PROXY_FALLBACK:
+        return None, first_source, first_error
+
+    try:
+        configure_fresh_free_proxy()
+    except Exception as proxy_exc:
+        proxy_error = exception_text(proxy_exc)
+        print(f"{label}: free-proxy setup failed: {proxy_error}")
+        traceback.print_exc()
+        return None, "free_proxy_setup_failed", f"{first_error}; {proxy_error}"
+
+    try:
+        print(f"{label}: retrying through a fresh free proxy...")
+        result = func()
+        return result, "free_proxy", None
+    except Exception as second_exc:
+        second_error = exception_text(second_exc)
+        print(f"{label}: free-proxy retry failed: {second_error}")
+        traceback.print_exc()
+        return None, "free_proxy", f"{first_error}; {second_error}"
+
+
+def extract_publications(publications):
+    """Convert light Scholar profile entries; never fill individual papers."""
     result = []
 
     for pub in publications[:PUBLICATION_LIMIT]:
@@ -60,24 +124,28 @@ def extract_publications(publications):
             or "Scientific Publication"
         )
 
+        try:
+            citations = int(pub.get("num_citations", 0) or 0)
+        except (TypeError, ValueError):
+            citations = 0
+
         result.append(
             {
                 "title": str(bib.get("title", "")).strip(),
                 "authors": str(authors or "").strip(),
                 "journal": str(venue).strip(),
                 "year": str(bib.get("pub_year", "") or "").strip(),
-                "citations": int(pub.get("num_citations", 0) or 0),
+                "citations": citations,
             }
         )
 
     return result
 
 
-def get_scholar_recent_and_metrics():
-    """Recupera metriche e le 20 pubblicazioni piu' recenti."""
+def fetch_recent_metrics_profile():
     print(
-        f"Fetching Scholar metrics and {PUBLICATION_LIMIT} most recent publications "
-        f"for ID: {SCHOLAR_ID}..."
+        f"Fetching metrics and {PUBLICATION_LIMIT} most recent publications "
+        f"for Scholar ID {SCHOLAR_ID}..."
     )
 
     author = scholarly.search_author_id(SCHOLAR_ID)
@@ -93,7 +161,6 @@ def get_scholar_recent_and_metrics():
         "h_index": int(author.get("hindex", 0) or 0),
         "i10_index": int(author.get("i10index", 0) or 0),
     }
-
     profile = {
         "name": author.get("name", ""),
         "affiliation": author.get("affiliation", ""),
@@ -101,24 +168,26 @@ def get_scholar_recent_and_metrics():
         "url_picture": author.get("url_picture", ""),
         "citations_per_year": author.get("cites_per_year", {}),
     }
-
     publications = extract_publications(author.get("publications", []))
+
+    if not publications:
+        raise RuntimeError("Scholar returned no recent publications")
+
     print(
-        f"Scholar recent phase completed: {len(publications)} publications, "
+        f"Recent Scholar phase succeeded: {len(publications)} publications, "
         f"{metrics['total_citations']} citations, h-index {metrics['h_index']}."
     )
     return metrics, profile, publications
 
 
-def get_scholar_top_cited():
-    """Recupera le 20 pubblicazioni piu' citate, senza riempire i singoli paper."""
+def fetch_top_cited():
     print(
-        f"Fetching {PUBLICATION_LIMIT} most cited Scholar publications "
-        f"for ID: {SCHOLAR_ID}..."
+        f"Fetching {PUBLICATION_LIMIT} most cited publications for Scholar ID "
+        f"{SCHOLAR_ID}..."
     )
 
-    # Oggetto autore nuovo: evita che la sezione publications gia' riempita con
-    # sortby='year' venga riutilizzata invece di essere riletta con 'citedby'.
+    # New author object is essential: publications must be fetched again with
+    # a different server-side sort order.
     author = scholarly.search_author_id(SCHOLAR_ID)
     author = scholarly.fill(
         author,
@@ -126,9 +195,12 @@ def get_scholar_top_cited():
         sortby="citedby",
         publication_limit=PUBLICATION_LIMIT,
     )
-
     publications = extract_publications(author.get("publications", []))
-    print(f"Scholar cited-by phase completed: {len(publications)} publications.")
+
+    if not publications:
+        raise RuntimeError("Scholar returned no most-cited publications")
+
+    print(f"Most-cited Scholar phase succeeded: {len(publications)} publications.")
     return publications
 
 
@@ -167,14 +239,16 @@ def get_github_data():
             )
 
         print(f"GitHub phase completed: {len(github_repos)} repositories.")
-        return github_repos
+        return github_repos, None
     except Exception as exc:
-        print(f"Error connecting to GitHub API: {exc}")
-        return None
+        error = exception_text(exc)
+        print(f"GitHub phase failed: {error}")
+        traceback.print_exc()
+        return None, error
 
 
 def main():
-    print("Starting automated Scholar + GitHub data sync (no ScrapingBee)...")
+    print("Starting Scholar + GitHub data sync (no ScrapingBee)...")
 
     if SCHOLAR_DELAY_MIN < 0 or SCHOLAR_DELAY_MAX < SCHOLAR_DELAY_MIN:
         print("Invalid SCHOLAR_DELAY_MIN/SCHOLAR_DELAY_MAX configuration.")
@@ -183,31 +257,29 @@ def main():
     os.makedirs(os.path.dirname(OUTPUT_FILE), exist_ok=True)
     previous = load_existing_output()
 
-    metrics = None
-    profile = None
-    recent_publications = None
-    top_cited_publications = None
+    # Scholar phase 1: metrics + recent publications.
+    recent_result, recent_source, recent_error = run_scholar_phase(
+        "Scholar recent/metrics", fetch_recent_metrics_profile
+    )
 
-    # Fase Scholar 1: metriche + recenti.
-    try:
-        metrics, profile, recent_publications = get_scholar_recent_and_metrics()
-    except Exception as exc:
-        print(f"Scholar recent/metrics phase failed: {exc}")
-        print("Previous Scholar metrics/recent publications will be preserved if available.")
+    if recent_result is not None:
+        metrics, profile, recent_publications = recent_result
+    else:
+        metrics = profile = recent_publications = None
+        print("Preserving cached Scholar metrics/recent publications.")
 
-    # Pausa SEMPRE tra le due fasi Scholar, anche se la prima e' fallita.
+    # Deliberate gap between the two sorted profile fetches.
     delay = random.uniform(SCHOLAR_DELAY_MIN, SCHOLAR_DELAY_MAX)
-    print(f"Waiting {delay:.0f} seconds before the second Scholar phase...")
+    print(f"Waiting {delay:.0f} seconds before the most-cited Scholar phase...")
     time.sleep(delay)
 
-    # Fase Scholar 2: piu' citate.
-    try:
-        top_cited_publications = get_scholar_top_cited()
-    except Exception as exc:
-        print(f"Scholar top-cited phase failed: {exc}")
-        print("Previous top-cited publications will be preserved if available.")
+    top_cited_publications, top_source, top_error = run_scholar_phase(
+        "Scholar most-cited", fetch_top_cited
+    )
+    if top_cited_publications is None:
+        print("Preserving cached most-cited publications.")
 
-    github_repos = get_github_data()
+    github_repos, github_error = get_github_data()
 
     previous_metrics = previous.get(
         "metrics", {"total_citations": 0, "h_index": 0, "i10_index": 0}
@@ -223,28 +295,45 @@ def main():
     final_top = top_cited_publications if top_cited_publications is not None else previous_top
     final_repos = github_repos if github_repos is not None else previous_repos
 
-    now_utc = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
+    now_utc = utc_now_string()
+
+    previous_recent_success = previous.get("scholar_recent_last_successful_update")
+    previous_top_success = previous.get("scholar_top_cited_last_successful_update")
+    previous_github_success = previous.get("github_last_successful_update")
+
+    recent_success_time = now_utc if recent_publications is not None else previous_recent_success
+    top_success_time = now_utc if top_cited_publications is not None else previous_top_success
+    github_success_time = now_utc if github_repos is not None else previous_github_success
+
     output_data = {
+        # Overall workflow execution time. Do NOT interpret this as Scholar freshness.
         "last_updated": now_utc,
+        "scholar_recent_last_successful_update": recent_success_time,
+        "scholar_top_cited_last_successful_update": top_success_time,
+        "github_last_successful_update": github_success_time,
         "scholar_profile": final_profile,
         "metrics": final_metrics,
-        # Compatibilita' con la versione precedente di index.html:
-        # 'publications' continua a significare le 20 piu' recenti.
+        # Backward-compatible alias used by older index.html versions.
         "publications": final_recent,
         "publications_recent": final_recent,
         "publications_top_cited": final_top,
         "repositories": final_repos,
         "sync_status": {
             "scholar_recent_ok": recent_publications is not None,
+            "scholar_recent_source": recent_source,
+            "scholar_recent_error": recent_error,
             "scholar_top_cited_ok": top_cited_publications is not None,
+            "scholar_top_cited_source": top_source,
+            "scholar_top_cited_error": top_error,
             "github_ok": github_repos is not None,
+            "github_error": github_error,
         },
     }
 
     try:
         with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
             json.dump(output_data, f, indent=2, ensure_ascii=False)
-        print(f"Successfully generated {OUTPUT_FILE} without ScrapingBee.")
+        print(f"Successfully generated {OUTPUT_FILE}.")
     except Exception as exc:
         print(f"Critical error writing {OUTPUT_FILE}: {exc}")
         sys.exit(1)

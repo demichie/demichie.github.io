@@ -2,7 +2,7 @@ name: Auto Update Scholar and GitHub Data
 
 on:
   schedule:
-    # Ogni lunedi' a mezzanotte UTC
+    # Every Monday at midnight UTC
     - cron: '0 0 * * 1'
   workflow_dispatch:
 
@@ -20,7 +20,6 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v6
         with:
-          # Versione esplicita per evitare che "3.x" cambi comportamento nel tempo.
           python-version: '3.11'
           cache: 'pip'
 
@@ -32,9 +31,11 @@ jobs:
       - name: Run Update Script
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          # Pausa casuale tra le due fasi Scholar (secondi).
           SCHOLAR_DELAY_MIN: '90'
           SCHOLAR_DELAY_MAX: '180'
+          # Direct Scholar access from GitHub-hosted runners is often blocked.
+          # Retry once with scholarly's public FreeProxies fallback.
+          SCHOLAR_FREE_PROXY_FALLBACK: 'true'
         run: python update_data.py
 
       - name: Commit and Push Changes

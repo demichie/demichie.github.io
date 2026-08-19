@@ -1,32 +1,47 @@
-# Scholar + GitHub automatic sync (without ScrapingBee)
+# Scholar + GitHub sync without ScrapingBee — v2
 
-This package replaces ScrapingBee with `scholarly` and keeps the Google Scholar traffic deliberately small.
+This version is designed for the situation observed on GitHub-hosted Actions runners: direct Google Scholar access may be blocked even when only an author profile is requested.
 
-## Scholar workflow
+## Retrieval strategy
 
-1. Fetch profile metrics plus the 20 most recent publications (`sortby="year"`).
-2. Wait a random 90-180 seconds by default.
-3. Fetch the 20 most cited publications (`sortby="citedby"`).
-4. Never call `scholarly.fill(pub)` on an individual publication.
+For each Scholar phase:
 
-The delay can be changed through `SCHOLAR_DELAY_MIN` and `SCHOLAR_DELAY_MAX` in the workflow.
+1. Try the current connection (initially direct).
+2. If it fails, configure a fresh `scholarly.ProxyGenerator().FreeProxies()` connection and retry once.
+3. Never call `scholarly.fill(pub)` on individual publication pages.
+4. Preserve the previous JSON data when both attempts fail.
 
-Google Scholar has no official public API for this use and may still rate-limit or block automated requests. The script therefore preserves the previous JSON values whenever one of the Scholar phases fails instead of replacing them with zeros or empty arrays.
+There are two Scholar phases, separated by a random 90–180 second delay:
 
-## Output JSON
+- metrics + 20 most recent publications (`sortby="year"`)
+- 20 most cited publications (`sortby="citedby"`)
 
-`data/scholar_github.json` contains:
+Free public proxies are inherently less reliable than a paid proxy/API. They are used only as a fallback and only for public Scholar requests. The GitHub token is used separately for `api.github.com` and is never passed to the Scholar proxy.
 
-- `metrics`
-- `scholar_profile`
-- `publications` (backward-compatible alias for recent publications)
-- `publications_recent`
-- `publications_top_cited`
-- `repositories`
-- `sync_status`
+## Better freshness metadata
 
-## GitHub Actions
+`last_updated` means only "the workflow ran at this time".
 
-Replace your current workflow with `.github/workflows/update-data.yml`.
+The JSON now also stores:
 
-The ScrapingBee secret is no longer used and can be deleted from the repository settings after the new workflow has been tested successfully.
+- `scholar_recent_last_successful_update`
+- `scholar_top_cited_last_successful_update`
+- `github_last_successful_update`
+
+and detailed `sync_status` fields including connection source and error text. This prevents a failed Scholar refresh from looking like fresh Scholar data.
+
+## What to look for after workflow_dispatch
+
+A successful run should produce something similar to:
+
+```json
+"sync_status": {
+  "scholar_recent_ok": true,
+  "scholar_recent_source": "direct" or "free_proxy",
+  "scholar_top_cited_ok": true,
+  "scholar_top_cited_source": "direct" or "free_proxy",
+  "github_ok": true
+}
+```
+
+If Scholar still fails, the JSON will now contain the actual exception class/message in `scholar_recent_error` and `scholar_top_cited_error`.
