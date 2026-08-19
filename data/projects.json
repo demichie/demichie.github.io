@@ -3,7 +3,13 @@
     "period": "2023-2026",
     "title": "Center of Excellence for Exascale in Solid Earth (ChEESE-2P)",
     "funding_agency": "HORIZON-JU-RIA",
-    "role": "Task leader"
+    "role": "Flagship code developer"
+  },
+  {
+    "period": "2023-2026",
+    "title": "VICTOR - Volcanology Infrastructure for Computational Tools and Resources",
+    "funding_agency": "NSF",
+    "role": "Membro dell’advisory board"
   },
   {
     "period": "2023-2025",
@@ -12,22 +18,10 @@
     "role": "Responsabile di Unità di Ricerca"
   },
   {
-    "period": "2023-oggi",
-    "title": "VICTOR - Volcanology Infrastructure for Computational Tools and Resources",
-    "funding_agency": "NSF",
-    "role": "Membro dell’advisory board"
-  },
-  {
-    "period": "2022-2025",
-    "title": "Piano Triennale per il Funzionamento del CPV - Task 3 (modellistica fisico-matematica e simulazione numerica per la pericolosità associata a unrest a Vulcano)",
-    "funding_agency": "INGV (CPV)",
-    "role": "Referente"
-  },
-  {
     "period": "2022-2025",
     "title": "Progetto Reti Multiparametriche - Task Vulcani-A4 (infrastruttura di calcolo per scenari di dispersione e ricaduta di tefra)",
     "funding_agency": "INGV",
-    "role": "Referente"
+    "role": "Task leader"
   },
   {
     "period": "2022-2025",
@@ -57,7 +51,6 @@
     "period": "2010-2012",
     "title": "Marie Curie IOF: Magma Ascent Mathematical Modeling and Analysis",
     "funding_agency": "Comunità Europea",
-    "role": "Principal Investigator",
-    "notes": "Contributo UE: 190.933,70 euro"
+    "role": "Principal Investigator"
   }
 ]
