@@ -1,0 +1,6 @@
+Files in this package:
+- update_data.py                         Scholar + GitHub sync without ScrapingBee
+- requirements.txt                      Python dependencies
+- index.html                            Adds Recent / Most cited Scholar selector
+- .github/workflows/update-data.yml     Weekly GitHub Actions workflow
+- README_SCHOLAR_SYNC.md                Installation and behavior notes

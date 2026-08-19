@@ -91,14 +91,22 @@
             </div>
 
             <!-- Notice Banner for Scholar Sync -->
-            <div id="scholar-notice" class="bg-blue-50 border border-blue-200 text-blue-800 p-4 rounded-xl mb-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div id="scholar-notice" class="bg-blue-50 border border-blue-200 text-blue-800 p-4 rounded-xl mb-6 flex flex-col lg:flex-row lg:items-center justify-between gap-4">
                 <div class="text-sm">
                     <i class="fa-solid fa-circle-info mr-1"></i>
-                    Displaying the <strong>20 most recent publications</strong> automatically synced from Google Scholar.
+                    <span id="scholar-sort-description">Displaying the <strong>20 most recent publications</strong> automatically synced from Google Scholar.</span>
                 </div>
-                <a href="https://scholar.google.com/citations?user=6ev_1zUAAAAJ&hl=en" target="_blank" class="px-4 py-2 bg-blue-600 text-white text-xs font-semibold rounded-lg hover:bg-blue-700 transition whitespace-nowrap">
-                    Complete List on Scholar ↗
-                </a>
+                <div class="flex flex-wrap items-center gap-2">
+                    <button onclick="setScholarSort('recent')" id="scholar-sort-recent" class="px-3 py-2 bg-blue-600 text-white text-xs font-semibold rounded-lg transition whitespace-nowrap">
+                        Most recent
+                    </button>
+                    <button onclick="setScholarSort('cited')" id="scholar-sort-cited" class="px-3 py-2 bg-white text-blue-700 border border-blue-200 text-xs font-semibold rounded-lg hover:bg-blue-100 transition whitespace-nowrap">
+                        Most cited
+                    </button>
+                    <a href="https://scholar.google.com/citations?user=6ev_1zUAAAAJ&hl=en" target="_blank" class="px-4 py-2 bg-white text-blue-700 border border-blue-200 text-xs font-semibold rounded-lg hover:bg-blue-100 transition whitespace-nowrap">
+                        Complete List on Scholar ↗
+                    </a>
+                </div>
             </div>
 
             <div id="publications-list" class="space-y-4">
@@ -145,9 +153,12 @@
     </footer>
 
     <script>
+        let journalPapersRecent = [];
+        let journalPapersTopCited = [];
         let journalPapers = [];
         let otherPublications = [];
         let currentType = 'paper';
+        let currentScholarSort = 'recent';
 
         document.addEventListener("DOMContentLoaded", () => {
             Promise.all([
@@ -171,7 +182,9 @@
                         lastUpdatedElem.innerHTML = `<i class="fa-regular fa-clock mr-1"></i>Last updated: <strong>${dynamicData.last_updated}</strong>`;
                     }
 
-                    journalPapers = dynamicData.publications || [];
+                    journalPapersRecent = dynamicData.publications_recent || dynamicData.publications || [];
+                    journalPapersTopCited = dynamicData.publications_top_cited || [];
+                    journalPapers = journalPapersRecent;
                     renderGitHubRepos(dynamicData.repositories || []);
                 } else {
                     document.getElementById('github-list').innerHTML = '<p class="text-red-500 italic col-span-2">Failed to load GitHub data.</p>';
@@ -217,6 +230,34 @@
             }
         }
 
+        function setScholarSort(sortMode) {
+            currentScholarSort = sortMode === 'cited' ? 'cited' : 'recent';
+            journalPapers = currentScholarSort === 'cited' ? journalPapersTopCited : journalPapersRecent;
+
+            const recentButton = document.getElementById('scholar-sort-recent');
+            const citedButton = document.getElementById('scholar-sort-cited');
+            const description = document.getElementById('scholar-sort-description');
+
+            [recentButton, citedButton].forEach(button => {
+                button.classList.remove('bg-blue-600', 'text-white');
+                button.classList.add('bg-white', 'text-blue-700', 'border', 'border-blue-200');
+            });
+
+            const activeButton = currentScholarSort === 'cited' ? citedButton : recentButton;
+            activeButton.classList.remove('bg-white', 'text-blue-700', 'border', 'border-blue-200');
+            activeButton.classList.add('bg-blue-600', 'text-white');
+
+            if (description) {
+                description.innerHTML = currentScholarSort === 'cited'
+                    ? 'Displaying the <strong>20 most cited publications</strong> automatically synced from Google Scholar.'
+                    : 'Displaying the <strong>20 most recent publications</strong> automatically synced from Google Scholar.';
+            }
+
+            if (currentType === 'paper') {
+                renderPublications();
+            }
+        }
+
         function filterPublications(type) {
             currentType = type;
             ['paper', 'book', 'chapter'].forEach(t => {
@@ -258,7 +299,8 @@
                         `;
                     });
                 } else {
-                    listContainer.innerHTML = `<p class="text-sm text-gray-400 italic">No recent journal papers found.</p>`;
+                    const label = currentScholarSort === 'cited' ? 'most-cited' : 'recent';
+                    listContainer.innerHTML = `<p class="text-sm text-gray-400 italic">No ${label} Scholar publications found.</p>`;
                 }
             } else {
                 // Filter Books or Book Chapters with flexible matching
