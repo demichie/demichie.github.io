@@ -91,19 +91,20 @@
             </div>
 
             <!-- Notice Banner for Scholar Sync -->
-            <div id="scholar-notice" class="bg-blue-50 border border-blue-200 text-blue-800 p-4 rounded-xl mb-6 flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+            <div id="scholar-notice" class="bg-blue-50 border border-blue-200 text-blue-800 p-4 rounded-xl mb-6 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
                 <div class="text-sm">
                     <i class="fa-solid fa-circle-info mr-1"></i>
-                    <span id="scholar-sort-description">Displaying the <strong>20 most recent publications</strong> automatically synced from Google Scholar.</span>
+                    Displaying the <strong id="scholar-sort-label">20 most recent publications</strong> automatically synced from Google Scholar.
+                    Titles are linked when a reliable DOI or publication URL is found independently of Scholar.
                 </div>
-                <div class="flex flex-wrap items-center gap-2">
-                    <button onclick="setScholarSort('recent')" id="scholar-sort-recent" class="px-3 py-2 bg-blue-600 text-white text-xs font-semibold rounded-lg transition whitespace-nowrap">
+                <div class="flex flex-wrap items-center gap-2 shrink-0">
+                    <button onclick="setScholarPublicationSort('recent')" id="scholar-sort-recent" class="px-3 py-2 bg-blue-600 text-white text-xs font-semibold rounded-lg transition whitespace-nowrap">
                         Most recent
                     </button>
-                    <button onclick="setScholarSort('cited')" id="scholar-sort-cited" class="px-3 py-2 bg-white text-blue-700 border border-blue-200 text-xs font-semibold rounded-lg hover:bg-blue-100 transition whitespace-nowrap">
+                    <button onclick="setScholarPublicationSort('cited')" id="scholar-sort-cited" class="px-3 py-2 bg-white text-blue-700 border border-blue-300 text-xs font-semibold rounded-lg hover:bg-blue-100 transition whitespace-nowrap">
                         Most cited
                     </button>
-                    <a href="https://scholar.google.com/citations?user=6ev_1zUAAAAJ&hl=en" target="_blank" class="px-4 py-2 bg-white text-blue-700 border border-blue-200 text-xs font-semibold rounded-lg hover:bg-blue-100 transition whitespace-nowrap">
+                    <a href="https://scholar.google.com/citations?user=6ev_1zUAAAAJ&hl=en" target="_blank" rel="noopener noreferrer" class="px-3 py-2 bg-white text-blue-700 border border-blue-300 text-xs font-semibold rounded-lg hover:bg-blue-100 transition whitespace-nowrap">
                         Complete List on Scholar ↗
                     </a>
                 </div>
@@ -153,12 +154,12 @@
     </footer>
 
     <script>
-        let journalPapersRecent = [];
-        let journalPapersTopCited = [];
         let journalPapers = [];
+        let scholarRecentPapers = [];
+        let scholarTopCitedPapers = [];
+        let currentScholarSort = 'recent';
         let otherPublications = [];
         let currentType = 'paper';
-        let currentScholarSort = 'recent';
 
         document.addEventListener("DOMContentLoaded", () => {
             Promise.all([
@@ -182,9 +183,9 @@
                         lastUpdatedElem.innerHTML = `<i class="fa-regular fa-clock mr-1"></i>Last updated: <strong>${dynamicData.last_updated}</strong>`;
                     }
 
-                    journalPapersRecent = dynamicData.publications_recent || dynamicData.publications || [];
-                    journalPapersTopCited = dynamicData.publications_top_cited || [];
-                    journalPapers = journalPapersRecent;
+                    scholarRecentPapers = dynamicData.publications_recent || dynamicData.publications || [];
+                    scholarTopCitedPapers = dynamicData.publications_top_cited || [];
+                    journalPapers = scholarRecentPapers;
                     renderGitHubRepos(dynamicData.repositories || []);
                 } else {
                     document.getElementById('github-list').innerHTML = '<p class="text-red-500 italic col-span-2">Failed to load GitHub data.</p>';
@@ -230,32 +231,46 @@
             }
         }
 
-        function setScholarSort(sortMode) {
+        function escapeHtml(value) {
+            return String(value ?? '').replace(/[&<>"']/g, char => ({
+                '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;'
+            })[char]);
+        }
+
+        function safePublicationUrl(value) {
+            if (!value) return '';
+            try {
+                const parsed = new URL(String(value), window.location.href);
+                return ['http:', 'https:'].includes(parsed.protocol) ? parsed.href : '';
+            } catch (_) {
+                return '';
+            }
+        }
+
+        function setScholarPublicationSort(sortMode) {
             currentScholarSort = sortMode === 'cited' ? 'cited' : 'recent';
-            journalPapers = currentScholarSort === 'cited' ? journalPapersTopCited : journalPapersRecent;
+            journalPapers = currentScholarSort === 'cited' ? scholarTopCitedPapers : scholarRecentPapers;
 
             const recentButton = document.getElementById('scholar-sort-recent');
             const citedButton = document.getElementById('scholar-sort-cited');
-            const description = document.getElementById('scholar-sort-description');
+            const label = document.getElementById('scholar-sort-label');
 
             [recentButton, citedButton].forEach(button => {
                 button.classList.remove('bg-blue-600', 'text-white');
-                button.classList.add('bg-white', 'text-blue-700', 'border', 'border-blue-200');
+                button.classList.add('bg-white', 'text-blue-700', 'border', 'border-blue-300');
             });
 
             const activeButton = currentScholarSort === 'cited' ? citedButton : recentButton;
-            activeButton.classList.remove('bg-white', 'text-blue-700', 'border', 'border-blue-200');
+            activeButton.classList.remove('bg-white', 'text-blue-700', 'border', 'border-blue-300');
             activeButton.classList.add('bg-blue-600', 'text-white');
 
-            if (description) {
-                description.innerHTML = currentScholarSort === 'cited'
-                    ? 'Displaying the <strong>20 most cited publications</strong> automatically synced from Google Scholar.'
-                    : 'Displaying the <strong>20 most recent publications</strong> automatically synced from Google Scholar.';
+            if (label) {
+                label.textContent = currentScholarSort === 'cited'
+                    ? '20 most cited publications'
+                    : '20 most recent publications';
             }
 
-            if (currentType === 'paper') {
-                renderPublications();
-            }
+            if (currentType === 'paper') renderPublications();
         }
 
         function filterPublications(type) {
@@ -283,24 +298,36 @@
             if (currentType === 'paper') {
                 if (journalPapers.length > 0) {
                     journalPapers.forEach(pub => {
+                        const publicationUrl = safePublicationUrl(pub.url);
+                        const title = escapeHtml(pub.title || 'Untitled publication');
+                        const titleHtml = publicationUrl
+                            ? `<a href="${escapeHtml(publicationUrl)}" target="_blank" rel="noopener noreferrer" class="text-blue-700 hover:underline inline-flex items-center gap-1">${title}<i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-gray-400"></i></a>`
+                            : title;
+                        const sourceLabel = pub.link_source
+                            ? `<span class="text-[10px] uppercase tracking-wide text-gray-400">Link: ${escapeHtml(pub.link_source)}</span>`
+                            : '';
+
                         listContainer.innerHTML += `
                             <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
-                                <div class="space-y-1">
-                                    <h4 class="text-base font-semibold text-gray-900">${pub.title}</h4>
-                                    <p class="text-xs text-gray-500">${pub.authors}</p>
-                                    <p class="text-xs text-gray-600"><em>${pub.journal || 'Journal'}</em> — <strong>${pub.year}</strong></p>
+                                <div class="space-y-1 min-w-0">
+                                    <h4 class="text-base font-semibold text-gray-900">${titleHtml}</h4>
+                                    <p class="text-xs text-gray-500">${escapeHtml(pub.authors || '')}</p>
+                                    <p class="text-xs text-gray-600"><em>${escapeHtml(pub.journal || 'Journal')}</em> — <strong>${escapeHtml(pub.year || '')}</strong></p>
+                                    ${sourceLabel}
                                 </div>
                                 <div class="whitespace-nowrap self-start sm:self-center">
                                     <span class="text-xs px-2.5 py-1 bg-blue-50 text-blue-700 border border-blue-200 font-bold rounded-md">
-                                        Citations: ${pub.citations || 0}
+                                        Citations: ${Number(pub.citations || 0)}
                                     </span>
                                 </div>
                             </div>
                         `;
                     });
                 } else {
-                    const label = currentScholarSort === 'cited' ? 'most-cited' : 'recent';
-                    listContainer.innerHTML = `<p class="text-sm text-gray-400 italic">No ${label} Scholar publications found.</p>`;
+                    const emptyMessage = currentScholarSort === 'cited'
+                        ? 'No most-cited Scholar publications found.'
+                        : 'No recent Scholar publications found.';
+                    listContainer.innerHTML = `<p class="text-sm text-gray-400 italic">${emptyMessage}</p>`;
                 }
             } else {
                 // Filter Books or Book Chapters with flexible matching

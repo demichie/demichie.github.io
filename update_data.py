@@ -1,10 +1,13 @@
 import json
 import os
 import random
+import re
 import sys
 import time
 import traceback
+import unicodedata
 from datetime import datetime, timezone
+from difflib import SequenceMatcher
 
 import requests
 from scholarly import ProxyGenerator, scholarly
@@ -21,6 +24,21 @@ USE_FREE_PROXY_FALLBACK = os.environ.get("SCHOLAR_FREE_PROXY_FALLBACK", "true").
     "1", "true", "yes", "on"
 }
 
+# Link enrichment. Crossref works without an API key. CROSSREF_MAILTO is optional,
+# but setting it as a repository variable is courteous and puts requests in the
+# Crossref polite pool. OpenAlex is an optional fallback and requires a free API key.
+CROSSREF_MAILTO = os.environ.get("CROSSREF_MAILTO", "").strip()
+OPENALEX_API_KEY = os.environ.get("OPENALEX_API_KEY", "").strip()
+LINK_LOOKUP_DELAY = float(os.environ.get("LINK_LOOKUP_DELAY", "0.35"))
+CROSSREF_ROWS = int(os.environ.get("CROSSREF_ROWS", "5"))
+CROSSREF_MIN_TITLE_SIMILARITY = float(os.environ.get("CROSSREF_MIN_TITLE_SIMILARITY", "0.88"))
+CROSSREF_MIN_MATCH_SCORE = float(os.environ.get("CROSSREF_MIN_MATCH_SCORE", "0.92"))
+OPENALEX_MIN_TITLE_SIMILARITY = float(os.environ.get("OPENALEX_MIN_TITLE_SIMILARITY", "0.90"))
+OPENALEX_MIN_MATCH_SCORE = float(os.environ.get("OPENALEX_MIN_MATCH_SCORE", "0.93"))
+
+HTTP_TIMEOUT = 25
+USER_AGENT = "scholar-github-sync/3.0 (https://github.com/demichie)"
+
 # Keep scholarly conservative. A failed GitHub-hosted runner IP should not create
 # a burst of retries against Google Scholar.
 scholarly.set_retries(1)
@@ -35,7 +53,7 @@ def utc_now_string():
 
 
 def load_existing_output():
-    """Load the existing JSON so failed Scholar phases never erase good data."""
+    """Load the existing JSON so failed phases never erase good data."""
     if not os.path.exists(OUTPUT_FILE):
         return {}
 
@@ -53,11 +71,7 @@ def exception_text(exc):
 
 
 def configure_fresh_free_proxy():
-    """Configure scholarly to use a newly selected public free proxy.
-
-    This is only a fallback for public Google Scholar profile requests. No
-    GitHub token or other secret is sent through this proxy.
-    """
+    """Configure scholarly to use a newly selected public free proxy."""
     global _scholar_connection_source
 
     print("Trying scholarly FreeProxies() fallback...")
@@ -76,6 +90,7 @@ def run_scholar_phase(label, func):
     global _scholar_connection_source
 
     first_source = _scholar_connection_source
+    first_error = None
     try:
         print(f"{label}: first attempt using {first_source} connection...")
         result = func()
@@ -186,8 +201,6 @@ def fetch_top_cited():
         f"{SCHOLAR_ID}..."
     )
 
-    # New author object is essential: publications must be fetched again with
-    # a different server-side sort order.
     author = scholarly.search_author_id(SCHOLAR_ID)
     author = scholarly.fill(
         author,
@@ -202,6 +215,382 @@ def fetch_top_cited():
 
     print(f"Most-cited Scholar phase succeeded: {len(publications)} publications.")
     return publications
+
+
+# -----------------------------------------------------------------------------
+# Publication-link enrichment (NO Google Scholar requests below this point)
+# -----------------------------------------------------------------------------
+
+def normalize_text(value):
+    value = unicodedata.normalize("NFKD", str(value or ""))
+    value = "".join(ch for ch in value if not unicodedata.combining(ch))
+    value = value.casefold()
+    value = re.sub(r"[^a-z0-9]+", " ", value)
+    return re.sub(r"\s+", " ", value).strip()
+
+
+def publication_key(pub):
+    return f"{normalize_text(pub.get('title'))}|{str(pub.get('year', '')).strip()}"
+
+
+def title_similarity(a, b):
+    na = normalize_text(a)
+    nb = normalize_text(b)
+    if not na or not nb:
+        return 0.0
+    if na == nb:
+        return 1.0
+    return SequenceMatcher(None, na, nb).ratio()
+
+
+def first_author_family(authors):
+    text = str(authors or "").replace("…", "...").strip()
+    if not text:
+        return ""
+    first = text.split(",", 1)[0].strip()
+    tokens = normalize_text(first).split()
+    return tokens[-1] if tokens else ""
+
+
+def candidate_year_from_crossref(item):
+    for field in ("published-print", "published-online", "issued", "created"):
+        value = item.get(field)
+        if not isinstance(value, dict):
+            continue
+        date_parts = value.get("date-parts")
+        if date_parts and date_parts[0]:
+            try:
+                return int(date_parts[0][0])
+            except (TypeError, ValueError, IndexError):
+                pass
+    return None
+
+
+def candidate_year_from_openalex(item):
+    try:
+        value = item.get("publication_year")
+        return int(value) if value is not None else None
+    except (TypeError, ValueError):
+        return None
+
+
+def score_candidate(pub, candidate_title, candidate_year=None, candidate_first_author=""):
+    sim = title_similarity(pub.get("title"), candidate_title)
+    score = sim
+
+    pub_year = None
+    try:
+        if str(pub.get("year", "")).strip():
+            pub_year = int(str(pub.get("year")).strip())
+    except (TypeError, ValueError):
+        pass
+
+    if pub_year is not None and candidate_year is not None:
+        delta = abs(pub_year - candidate_year)
+        if delta == 0:
+            score += 0.03
+        elif delta == 1:
+            score += 0.01
+        elif delta >= 3:
+            score -= 0.05
+
+    expected_family = first_author_family(pub.get("authors"))
+    candidate_family = first_author_family(candidate_first_author)
+    if expected_family and candidate_family:
+        if expected_family == candidate_family:
+            score += 0.04
+        elif expected_family not in candidate_family and candidate_family not in expected_family:
+            score -= 0.02
+
+    return min(1.0, max(0.0, score)), sim
+
+
+def request_json(url, params, label):
+    headers = {"User-Agent": USER_AGENT, "Accept": "application/json"}
+    last_error = None
+
+    for attempt in range(2):
+        try:
+            response = requests.get(url, params=params, headers=headers, timeout=HTTP_TIMEOUT)
+            if response.status_code == 429 and attempt == 0:
+                retry_after = response.headers.get("Retry-After")
+                try:
+                    pause = min(30.0, max(2.0, float(retry_after))) if retry_after else 5.0
+                except ValueError:
+                    pause = 5.0
+                print(f"{label}: rate limited; backing off for {pause:.0f}s...")
+                time.sleep(pause)
+                continue
+            response.raise_for_status()
+            return response.json(), None
+        except Exception as exc:
+            last_error = exception_text(exc)
+            if attempt == 0:
+                time.sleep(1.5)
+            else:
+                break
+
+    return None, last_error
+
+
+def crossref_lookup(pub):
+    title = str(pub.get("title", "")).strip()
+    if not title:
+        return None, "missing title"
+
+    query_parts = [title]
+    first_author = str(pub.get("authors", "")).split(",", 1)[0].strip()
+    year = str(pub.get("year", "")).strip()
+    if first_author:
+        query_parts.append(first_author)
+    if year:
+        query_parts.append(year)
+
+    params = {
+        "query.bibliographic": " ".join(query_parts),
+        "rows": max(1, min(CROSSREF_ROWS, 10)),
+    }
+    if CROSSREF_MAILTO:
+        params["mailto"] = CROSSREF_MAILTO
+
+    data, error = request_json("https://api.crossref.org/works", params, "Crossref")
+    if data is None:
+        return None, error
+
+    items = data.get("message", {}).get("items", [])
+    best = None
+
+    for item in items:
+        titles = item.get("title") or []
+        candidate_title = titles[0] if titles else ""
+        authors = item.get("author") or []
+        candidate_author = ""
+        if authors:
+            a = authors[0]
+            candidate_author = " ".join(
+                part for part in (a.get("given", ""), a.get("family", "")) if part
+            )
+
+        score, sim = score_candidate(
+            pub,
+            candidate_title,
+            candidate_year_from_crossref(item),
+            candidate_author,
+        )
+        if best is None or score > best[0]:
+            best = (score, sim, item)
+
+    if best is None:
+        return None, "no Crossref candidates"
+
+    score, sim, item = best
+    doi = str(item.get("DOI", "")).strip()
+    if not doi:
+        return None, f"best Crossref candidate has no DOI (score={score:.3f})"
+
+    if sim < CROSSREF_MIN_TITLE_SIMILARITY or score < CROSSREF_MIN_MATCH_SCORE:
+        return None, f"Crossref match below threshold (title={sim:.3f}, score={score:.3f})"
+
+    return {
+        "doi": doi,
+        "url": f"https://doi.org/{doi}",
+        "link_source": "crossref",
+        "link_match_score": round(score, 3),
+    }, None
+
+
+def arxiv_lookup(pub):
+    haystack = " ".join(
+        str(pub.get(field, "") or "") for field in ("title", "journal")
+    )
+    # Modern and legacy arXiv IDs. Prefer an explicit arXiv marker when present.
+    patterns = [
+        r"arxiv\s*[: ]\s*(\d{4}\.\d{4,5}(?:v\d+)?)",
+        r"arxiv\s*[: ]\s*([a-z-]+(?:\.[A-Z]{2})?/\d{7}(?:v\d+)?)",
+    ]
+    for pattern in patterns:
+        match = re.search(pattern, haystack, flags=re.IGNORECASE)
+        if match:
+            arxiv_id = match.group(1)
+            return {
+                "doi": "",
+                "url": f"https://arxiv.org/abs/{arxiv_id}",
+                "link_source": "arxiv",
+                "link_match_score": 1.0,
+            }, None
+    return None, "no arXiv identifier in Scholar metadata"
+
+
+def openalex_lookup(pub):
+    if not OPENALEX_API_KEY:
+        return None, "OPENALEX_API_KEY not configured"
+
+    title = str(pub.get("title", "")).strip()
+    if not title:
+        return None, "missing title"
+
+    params = {
+        "search": f'"{title}"',
+        "per_page": 5,
+        "api_key": OPENALEX_API_KEY,
+        "select": "id,display_name,publication_year,doi,primary_location,authorships",
+    }
+
+    data, error = request_json("https://api.openalex.org/works", params, "OpenAlex")
+    if data is None:
+        return None, error
+
+    best = None
+    for item in data.get("results", []):
+        candidate_author = ""
+        authorships = item.get("authorships") or []
+        if authorships:
+            candidate_author = (authorships[0].get("author") or {}).get("display_name", "")
+
+        score, sim = score_candidate(
+            pub,
+            item.get("display_name", ""),
+            candidate_year_from_openalex(item),
+            candidate_author,
+        )
+        if best is None or score > best[0]:
+            best = (score, sim, item)
+
+    if best is None:
+        return None, "no OpenAlex candidates"
+
+    score, sim, item = best
+    if sim < OPENALEX_MIN_TITLE_SIMILARITY or score < OPENALEX_MIN_MATCH_SCORE:
+        return None, f"OpenAlex match below threshold (title={sim:.3f}, score={score:.3f})"
+
+    doi_url = str(item.get("doi", "") or "").strip()
+    doi = re.sub(r"^https?://doi\.org/", "", doi_url, flags=re.IGNORECASE)
+    if doi:
+        url = f"https://doi.org/{doi}"
+    else:
+        primary_location = item.get("primary_location") or {}
+        url = str(primary_location.get("landing_page_url", "") or "").strip()
+        if not url:
+            url = str(item.get("id", "") or "").strip()
+
+    if not url:
+        return None, "OpenAlex candidate has no usable URL"
+
+    return {
+        "doi": doi,
+        "url": url,
+        "link_source": "openalex",
+        "link_match_score": round(score, 3),
+    }, None
+
+
+def previous_link_cache(previous):
+    cache = {}
+    for field in ("publications_recent", "publications_top_cited", "publications"):
+        for pub in previous.get(field, []) or []:
+            if not isinstance(pub, dict) or not pub.get("url"):
+                continue
+            cache[publication_key(pub)] = {
+                "doi": pub.get("doi", ""),
+                "url": pub.get("url", ""),
+                "link_source": pub.get("link_source", "cached"),
+                "link_match_score": pub.get("link_match_score"),
+            }
+    return cache
+
+
+def resolve_publication_link(pub):
+    crossref_result, crossref_error = crossref_lookup(pub)
+    if crossref_result:
+        return crossref_result, None
+
+    arxiv_result, arxiv_error = arxiv_lookup(pub)
+    if arxiv_result:
+        return arxiv_result, None
+
+    openalex_result, openalex_error = openalex_lookup(pub)
+    if openalex_result:
+        return openalex_result, None
+
+    errors = [
+        f"Crossref: {crossref_error}",
+        f"arXiv: {arxiv_error}",
+        f"OpenAlex: {openalex_error}",
+    ]
+    return None, "; ".join(errors)
+
+
+def enrich_publication_links(recent, top_cited, previous):
+    """Add DOI/URL metadata while querying each unique publication at most once.
+
+    Existing URLs from the previous JSON are reused, so unchanged publications do
+    not generate new Crossref/OpenAlex calls every Monday.
+    """
+    cache = previous_link_cache(previous)
+    resolved = dict(cache)
+    lookup_errors = {}
+    lookups_attempted = 0
+    links_found = 0
+
+    combined = []
+    for pub in list(recent or []) + list(top_cited or []):
+        if not isinstance(pub, dict) or not pub.get("title"):
+            continue
+        key = publication_key(pub)
+        if key in {publication_key(p) for p in combined}:
+            continue
+        combined.append(pub)
+
+    print(
+        f"Link enrichment: {len(combined)} unique Scholar entries; "
+        f"{len(cache)} cached links available."
+    )
+
+    for index, pub in enumerate(combined, start=1):
+        key = publication_key(pub)
+        if key in resolved and resolved[key].get("url"):
+            print(f"Link {index}/{len(combined)}: cached: {pub.get('title', '')[:80]}")
+            continue
+
+        lookups_attempted += 1
+        print(f"Link {index}/{len(combined)}: resolving: {pub.get('title', '')[:80]}")
+        result, error = resolve_publication_link(pub)
+        if result:
+            resolved[key] = result
+            links_found += 1
+            print(f"  -> {result['link_source']}: {result['url']}")
+        else:
+            lookup_errors[key] = error
+            print(f"  -> no reliable link: {error}")
+
+        if LINK_LOOKUP_DELAY > 0:
+            time.sleep(LINK_LOOKUP_DELAY)
+
+    def apply(items):
+        output = []
+        for pub in items or []:
+            enriched = dict(pub)
+            link = resolved.get(publication_key(pub))
+            if link and link.get("url"):
+                enriched.update(link)
+            else:
+                # Explicit empty fields make the JSON schema predictable for the frontend.
+                enriched.setdefault("doi", "")
+                enriched.setdefault("url", "")
+                enriched.setdefault("link_source", "")
+                enriched.setdefault("link_match_score", None)
+            output.append(enriched)
+        return output
+
+    stats = {
+        "unique_publications": len(combined),
+        "cached_links_reused": sum(1 for pub in combined if publication_key(pub) in cache),
+        "lookups_attempted": lookups_attempted,
+        "new_links_found": links_found,
+        "unresolved": len(lookup_errors),
+        "openalex_enabled": bool(OPENALEX_API_KEY),
+    }
+    return apply(recent), apply(top_cited), stats
 
 
 def get_github_data():
@@ -248,7 +637,7 @@ def get_github_data():
 
 
 def main():
-    print("Starting Scholar + GitHub data sync (no ScrapingBee)...")
+    print("Starting Scholar + publication-link + GitHub data sync (no ScrapingBee)...")
 
     if SCHOLAR_DELAY_MIN < 0 or SCHOLAR_DELAY_MAX < SCHOLAR_DELAY_MIN:
         print("Invalid SCHOLAR_DELAY_MIN/SCHOLAR_DELAY_MAX configuration.")
@@ -295,6 +684,25 @@ def main():
     final_top = top_cited_publications if top_cited_publications is not None else previous_top
     final_repos = github_repos if github_repos is not None else previous_repos
 
+    # Resolve URLs only after both Scholar lists are known. This phase does not use Scholar.
+    try:
+        final_recent, final_top, link_stats = enrich_publication_links(
+            final_recent, final_top, previous
+        )
+        link_enrichment_error = None
+    except Exception as exc:
+        link_enrichment_error = exception_text(exc)
+        print(f"Publication-link enrichment failed unexpectedly: {link_enrichment_error}")
+        traceback.print_exc()
+        link_stats = {
+            "unique_publications": 0,
+            "cached_links_reused": 0,
+            "lookups_attempted": 0,
+            "new_links_found": 0,
+            "unresolved": 0,
+            "openalex_enabled": bool(OPENALEX_API_KEY),
+        }
+
     now_utc = utc_now_string()
 
     previous_recent_success = previous.get("scholar_recent_last_successful_update")
@@ -306,7 +714,6 @@ def main():
     github_success_time = now_utc if github_repos is not None else previous_github_success
 
     output_data = {
-        # Overall workflow execution time. Do NOT interpret this as Scholar freshness.
         "last_updated": now_utc,
         "scholar_recent_last_successful_update": recent_success_time,
         "scholar_top_cited_last_successful_update": top_success_time,
@@ -318,6 +725,7 @@ def main():
         "publications_recent": final_recent,
         "publications_top_cited": final_top,
         "repositories": final_repos,
+        "link_enrichment": link_stats,
         "sync_status": {
             "scholar_recent_ok": recent_publications is not None,
             "scholar_recent_source": recent_source,
@@ -325,6 +733,8 @@ def main():
             "scholar_top_cited_ok": top_cited_publications is not None,
             "scholar_top_cited_source": top_source,
             "scholar_top_cited_error": top_error,
+            "publication_links_ok": link_enrichment_error is None,
+            "publication_links_error": link_enrichment_error,
             "github_ok": github_repos is not None,
             "github_error": github_error,
         },

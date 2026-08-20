@@ -36,6 +36,11 @@ jobs:
           # Direct Scholar access from GitHub-hosted runners is often blocked.
           # Retry once with scholarly's public FreeProxies fallback.
           SCHOLAR_FREE_PROXY_FALLBACK: 'true'
+          # Optional: Crossref works without this, but an email enables the polite pool.
+          CROSSREF_MAILTO: ${{ vars.CROSSREF_MAILTO }}
+          # Optional fallback only. OpenAlex requires a free API key in 2026.
+          OPENALEX_API_KEY: ${{ secrets.OPENALEX_API_KEY }}
+          LINK_LOOKUP_DELAY: '0.35'
         run: python update_data.py
 
       - name: Commit and Push Changes
