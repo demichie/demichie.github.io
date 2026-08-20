@@ -1,5 +1,8 @@
 {
-  "last_updated": "2026-08-19 08:01 UTC",
+  "last_updated": "2026-08-20 06:51 UTC",
+  "scholar_recent_last_successful_update": null,
+  "scholar_top_cited_last_successful_update": null,
+  "github_last_successful_update": "2026-08-20 06:51 UTC",
   "scholar_profile": {
     "name": "M de' Michieli Vitturi",
     "affiliation": "Senior Researcher, Istituto Nazionale di Geofisica e Vulcanologia",
@@ -795,8 +798,13 @@
     }
   ],
   "sync_status": {
-    "scholar_recent_ok": true,
-    "scholar_top_cited_ok": true,
-    "github_ok": true
+    "scholar_recent_ok": false,
+    "scholar_recent_source": "free_proxy_setup_failed",
+    "scholar_recent_error": "MaxTriesExceededException: Cannot Fetch from Google Scholar.; TypeError: Client.__init__() got an unexpected keyword argument 'proxies'",
+    "scholar_top_cited_ok": false,
+    "scholar_top_cited_source": "free_proxy_setup_failed",
+    "scholar_top_cited_error": "MaxTriesExceededException: Cannot Fetch from Google Scholar.; TypeError: FreeProxy.get_proxy_list() missing 1 required positional argument: 'repeat'",
+    "github_ok": true,
+    "github_error": null
   }
 }
