@@ -1,8 +1,8 @@
 {
-  "last_updated": "2026-08-20 06:51 UTC",
-  "scholar_recent_last_successful_update": null,
-  "scholar_top_cited_last_successful_update": null,
-  "github_last_successful_update": "2026-08-20 06:51 UTC",
+  "last_updated": "2026-08-20 08:22 UTC",
+  "scholar_recent_last_successful_update": "2026-08-20 08:22 UTC",
+  "scholar_top_cited_last_successful_update": "2026-08-20 08:22 UTC",
+  "github_last_successful_update": "2026-08-20 08:22 UTC",
   "scholar_profile": {
     "name": "M de' Michieli Vitturi",
     "affiliation": "Senior Researcher, Istituto Nazionale di Geofisica e Vulcanologia",
@@ -32,11 +32,11 @@
       "2023": 277,
       "2024": 330,
       "2025": 480,
-      "2026": 284
+      "2026": 285
     }
   },
   "metrics": {
-    "total_citations": 3343,
+    "total_citations": 3344,
     "h_index": 31,
     "i10_index": 74
   },
@@ -463,7 +463,7 @@
       "authors": "",
       "journal": "Frontiers in Earth Science 9, 628652, 2021",
       "year": "2021",
-      "citations": 44
+      "citations": 45
     }
   ],
   "repositories": [
@@ -798,12 +798,12 @@
     }
   ],
   "sync_status": {
-    "scholar_recent_ok": false,
-    "scholar_recent_source": "free_proxy_setup_failed",
-    "scholar_recent_error": "MaxTriesExceededException: Cannot Fetch from Google Scholar.; TypeError: Client.__init__() got an unexpected keyword argument 'proxies'",
-    "scholar_top_cited_ok": false,
-    "scholar_top_cited_source": "free_proxy_setup_failed",
-    "scholar_top_cited_error": "MaxTriesExceededException: Cannot Fetch from Google Scholar.; TypeError: FreeProxy.get_proxy_list() missing 1 required positional argument: 'repeat'",
+    "scholar_recent_ok": true,
+    "scholar_recent_source": "direct",
+    "scholar_recent_error": null,
+    "scholar_top_cited_ok": true,
+    "scholar_top_cited_source": "direct",
+    "scholar_top_cited_error": null,
     "github_ok": true,
     "github_error": null
   }
