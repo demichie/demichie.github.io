@@ -1,8 +1,8 @@
 {
-  "last_updated": "2026-08-24 01:53 UTC",
-  "scholar_recent_last_successful_update": "2026-08-20 13:44 UTC",
-  "scholar_top_cited_last_successful_update": "2026-08-20 13:44 UTC",
-  "github_last_successful_update": "2026-08-24 01:53 UTC",
+  "last_updated": "2026-08-24 06:38 UTC",
+  "scholar_recent_last_successful_update": "2026-08-24 06:38 UTC",
+  "scholar_top_cited_last_successful_update": "2026-08-24 06:38 UTC",
+  "github_last_successful_update": "2026-08-24 06:38 UTC",
   "scholar_profile": {
     "name": "M de' Michieli Vitturi",
     "affiliation": "Senior Researcher, Istituto Nazionale di Geofisica e Vulcanologia",
@@ -32,11 +32,11 @@
       "2023": 277,
       "2024": 330,
       "2025": 480,
-      "2026": 285
+      "2026": 291
     }
   },
   "metrics": {
-    "total_citations": 3344,
+    "total_citations": 3350,
     "h_index": 31,
     "i10_index": 74
   },
@@ -490,7 +490,7 @@
       "authors": "",
       "journal": "Celestial Mechanics and Dynamical Astronomy 90 (1), 57-85, 2004",
       "year": "2004",
-      "citations": 383,
+      "citations": 385,
       "doi": "10.1007/s10569-004-6593-5",
       "url": "https://doi.org/10.1007/s10569-004-6593-5",
       "link_source": "crossref",
@@ -534,7 +534,7 @@
       "authors": "",
       "journal": "Nature Communications 12 (1), 4213, 2021",
       "year": "2021",
-      "citations": 102,
+      "citations": 103,
       "doi": "10.1038/s41467-021-24420-1",
       "url": "https://doi.org/10.1038/s41467-021-24420-1",
       "link_source": "crossref",
@@ -1046,12 +1046,12 @@
     "openalex_enabled": false
   },
   "sync_status": {
-    "scholar_recent_ok": false,
-    "scholar_recent_source": "free_proxy_setup_failed",
-    "scholar_recent_error": "MaxTriesExceededException: Cannot Fetch from Google Scholar.; TypeError: Client.__init__() got an unexpected keyword argument 'proxies'",
-    "scholar_top_cited_ok": false,
-    "scholar_top_cited_source": "free_proxy_setup_failed",
-    "scholar_top_cited_error": "MaxTriesExceededException: Cannot Fetch from Google Scholar.; TypeError: Client.__init__() got an unexpected keyword argument 'proxies'",
+    "scholar_recent_ok": true,
+    "scholar_recent_source": "free_proxy",
+    "scholar_recent_error": null,
+    "scholar_top_cited_ok": true,
+    "scholar_top_cited_source": "free_proxy",
+    "scholar_top_cited_error": null,
     "publication_links_ok": true,
     "publication_links_error": null,
     "github_ok": true,
