@@ -1,8 +1,8 @@
 {
-  "last_updated": "2026-08-31 05:23 UTC",
-  "scholar_recent_last_successful_update": "2026-08-24 06:38 UTC",
-  "scholar_top_cited_last_successful_update": "2026-08-31 05:23 UTC",
-  "github_last_successful_update": "2026-08-31 05:23 UTC",
+  "last_updated": "2026-08-31 06:18 UTC",
+  "scholar_recent_last_successful_update": "2026-08-31 06:18 UTC",
+  "scholar_top_cited_last_successful_update": "2026-08-31 06:18 UTC",
+  "github_last_successful_update": "2026-08-31 06:18 UTC",
   "scholar_profile": {
     "name": "M de' Michieli Vitturi",
     "affiliation": "Senior Researcher, Istituto Nazionale di Geofisica e Vulcanologia",
@@ -32,11 +32,11 @@
       "2023": 277,
       "2024": 330,
       "2025": 480,
-      "2026": 291
+      "2026": 296
     }
   },
   "metrics": {
-    "total_citations": 3350,
+    "total_citations": 3355,
     "h_index": 31,
     "i10_index": 74
   },
@@ -708,6 +708,13 @@
   ],
   "repositories": [
     {
+      "name": "IMEX_SfloW2D_v2",
+      "description": "Shallow water variable density gas-particle flow",
+      "url": "https://github.com/demichie/IMEX_SfloW2D_v2",
+      "stars": 10,
+      "language": "Fortran"
+    },
+    {
       "name": "elicipy2",
       "description": "Expert elicitation Python code",
       "url": "https://github.com/demichie/elicipy2",
@@ -720,13 +727,6 @@
       "url": "https://github.com/demichie/OpenPDAC-13",
       "stars": 1,
       "language": "C++"
-    },
-    {
-      "name": "IMEX_SfloW2D_v2",
-      "description": "Shallow water variable density gas-particle flow",
-      "url": "https://github.com/demichie/IMEX_SfloW2D_v2",
-      "stars": 10,
-      "language": "Fortran"
     },
     {
       "name": "elicipy",
@@ -1046,11 +1046,11 @@
     "openalex_enabled": false
   },
   "sync_status": {
-    "scholar_recent_ok": false,
-    "scholar_recent_source": "free_proxy",
-    "scholar_recent_error": "MaxTriesExceededException: Cannot Fetch from Google Scholar.; MaxTriesExceededException: Cannot Fetch from Google Scholar.",
+    "scholar_recent_ok": true,
+    "scholar_recent_source": "direct",
+    "scholar_recent_error": null,
     "scholar_top_cited_ok": true,
-    "scholar_top_cited_source": "free_proxy",
+    "scholar_top_cited_source": "direct",
     "scholar_top_cited_error": null,
     "publication_links_ok": true,
     "publication_links_error": null,
