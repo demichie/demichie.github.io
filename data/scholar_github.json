@@ -1,8 +1,8 @@
 {
-  "last_updated": "2026-08-24 06:38 UTC",
+  "last_updated": "2026-08-31 05:23 UTC",
   "scholar_recent_last_successful_update": "2026-08-24 06:38 UTC",
-  "scholar_top_cited_last_successful_update": "2026-08-24 06:38 UTC",
-  "github_last_successful_update": "2026-08-24 06:38 UTC",
+  "scholar_top_cited_last_successful_update": "2026-08-31 05:23 UTC",
+  "github_last_successful_update": "2026-08-31 05:23 UTC",
   "scholar_profile": {
     "name": "M de' Michieli Vitturi",
     "affiliation": "Senior Researcher, Istituto Nazionale di Geofisica e Vulcanologia",
@@ -490,7 +490,7 @@
       "authors": "",
       "journal": "Celestial Mechanics and Dynamical Astronomy 90 (1), 57-85, 2004",
       "year": "2004",
-      "citations": 385,
+      "citations": 389,
       "doi": "10.1007/s10569-004-6593-5",
       "url": "https://doi.org/10.1007/s10569-004-6593-5",
       "link_source": "crossref",
@@ -1046,9 +1046,9 @@
     "openalex_enabled": false
   },
   "sync_status": {
-    "scholar_recent_ok": true,
+    "scholar_recent_ok": false,
     "scholar_recent_source": "free_proxy",
-    "scholar_recent_error": null,
+    "scholar_recent_error": "MaxTriesExceededException: Cannot Fetch from Google Scholar.; MaxTriesExceededException: Cannot Fetch from Google Scholar.",
     "scholar_top_cited_ok": true,
     "scholar_top_cited_source": "free_proxy",
     "scholar_top_cited_error": null,
