@@ -1,8 +1,8 @@
 {
-  "last_updated": "2026-08-31 06:18 UTC",
-  "scholar_recent_last_successful_update": "2026-08-31 06:18 UTC",
-  "scholar_top_cited_last_successful_update": "2026-08-31 06:18 UTC",
-  "github_last_successful_update": "2026-08-31 06:18 UTC",
+  "last_updated": "2026-09-07 04:18 UTC",
+  "scholar_recent_last_successful_update": "2026-09-07 04:18 UTC",
+  "scholar_top_cited_last_successful_update": "2026-09-07 04:18 UTC",
+  "github_last_successful_update": "2026-09-07 04:18 UTC",
   "scholar_profile": {
     "name": "M de' Michieli Vitturi",
     "affiliation": "Senior Researcher, Istituto Nazionale di Geofisica e Vulcanologia",
@@ -23,20 +23,20 @@
       "2014": 91,
       "2015": 68,
       "2016": 135,
-      "2017": 149,
+      "2017": 150,
       "2018": 183,
       "2019": 189,
-      "2020": 218,
+      "2020": 219,
       "2021": 272,
       "2022": 340,
       "2023": 277,
       "2024": 330,
       "2025": 480,
-      "2026": 296
+      "2026": 303
     }
   },
   "metrics": {
-    "total_citations": 3355,
+    "total_citations": 3364,
     "h_index": 31,
     "i10_index": 74
   },
@@ -512,7 +512,7 @@
       "authors": "",
       "journal": "Environmental Modelling & Software 25 (5), 633-640, 2010",
       "year": "2010",
-      "citations": 143,
+      "citations": 144,
       "doi": "10.1016/j.envsoft.2009.05.007",
       "url": "https://doi.org/10.1016/j.envsoft.2009.05.007",
       "link_source": "crossref",
@@ -556,7 +556,7 @@
       "authors": "",
       "journal": "Earth and Planetary Science Letters 553, 116658, 2021",
       "year": "2021",
-      "citations": 96,
+      "citations": 97,
       "doi": "10.1016/j.epsl.2020.116658",
       "url": "https://doi.org/10.1016/j.epsl.2020.116658",
       "link_source": "crossref",
@@ -633,7 +633,7 @@
       "authors": "",
       "journal": "Scientific reports 7 (1), 39620, 2017",
       "year": "2017",
-      "citations": 50,
+      "citations": 51,
       "doi": "10.1038/srep39620",
       "url": "https://doi.org/10.1038/srep39620",
       "link_source": "crossref",
@@ -708,13 +708,6 @@
   ],
   "repositories": [
     {
-      "name": "IMEX_SfloW2D_v2",
-      "description": "Shallow water variable density gas-particle flow",
-      "url": "https://github.com/demichie/IMEX_SfloW2D_v2",
-      "stars": 10,
-      "language": "Fortran"
-    },
-    {
       "name": "elicipy2",
       "description": "Expert elicitation Python code",
       "url": "https://github.com/demichie/elicipy2",
@@ -727,6 +720,13 @@
       "url": "https://github.com/demichie/OpenPDAC-13",
       "stars": 1,
       "language": "C++"
+    },
+    {
+      "name": "IMEX_SfloW2D_v2",
+      "description": "Shallow water variable density gas-particle flow",
+      "url": "https://github.com/demichie/IMEX_SfloW2D_v2",
+      "stars": 10,
+      "language": "Fortran"
     },
     {
       "name": "elicipy",
@@ -757,17 +757,17 @@
       "language": "C++"
     },
     {
-      "name": "PLUME-MoM-TSM",
-      "description": "Volcanic plume integral model based on the TSM method of moments",
-      "url": "https://github.com/demichie/PLUME-MoM-TSM",
-      "stars": 3,
-      "language": "Fortran"
-    },
-    {
       "name": "IMEX_SfloW2D_dev",
       "description": "No description provided.",
       "url": "https://github.com/demichie/IMEX_SfloW2D_dev",
       "stars": 0,
+      "language": "Fortran"
+    },
+    {
+      "name": "PLUME-MoM-TSM",
+      "description": "Volcanic plume integral model based on the TSM method of moments",
+      "url": "https://github.com/demichie/PLUME-MoM-TSM",
+      "stars": 3,
       "language": "Fortran"
     },
     {
