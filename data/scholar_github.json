@@ -1,8 +1,8 @@
 {
-  "last_updated": "2026-09-07 04:18 UTC",
-  "scholar_recent_last_successful_update": "2026-09-07 04:18 UTC",
-  "scholar_top_cited_last_successful_update": "2026-09-07 04:18 UTC",
-  "github_last_successful_update": "2026-09-07 04:18 UTC",
+  "last_updated": "2026-10-12 06:56 UTC",
+  "scholar_recent_last_successful_update": "2026-10-12 06:56 UTC",
+  "scholar_top_cited_last_successful_update": "2026-10-12 06:56 UTC",
+  "github_last_successful_update": "2026-10-12 06:56 UTC",
   "scholar_profile": {
     "name": "M de' Michieli Vitturi",
     "affiliation": "Senior Researcher, Istituto Nazionale di Geofisica e Vulcanologia",
@@ -18,27 +18,27 @@
       "2009": 39,
       "2010": 49,
       "2011": 51,
-      "2012": 51,
+      "2012": 49,
       "2013": 57,
       "2014": 91,
       "2015": 68,
       "2016": 135,
-      "2017": 150,
+      "2017": 151,
       "2018": 183,
-      "2019": 189,
-      "2020": 219,
+      "2019": 191,
+      "2020": 220,
       "2021": 272,
       "2022": 340,
       "2023": 277,
-      "2024": 330,
-      "2025": 480,
-      "2026": 303
+      "2024": 331,
+      "2025": 479,
+      "2026": 382
     }
   },
   "metrics": {
-    "total_citations": 3364,
-    "h_index": 31,
-    "i10_index": 74
+    "total_citations": 3446,
+    "h_index": 32,
+    "i10_index": 75
   },
   "publications": [
     {
@@ -79,7 +79,7 @@
       "authors": "",
       "journal": "Journal of Geophysical Research: Solid Earth 131 (5), e2025JB032571, 2026",
       "year": "2026",
-      "citations": 2,
+      "citations": 4,
       "doi": "10.1029/2025jb032571",
       "url": "https://doi.org/10.1029/2025jb032571",
       "link_source": "crossref",
@@ -90,7 +90,7 @@
       "authors": "",
       "journal": "Journal of Geophysical Research: Solid Earth 131 (5), e2025JB032568, 2026",
       "year": "2026",
-      "citations": 2,
+      "citations": 4,
       "doi": "10.1029/2025jb032568",
       "url": "https://doi.org/10.1029/2025jb032568",
       "link_source": "crossref",
@@ -185,6 +185,17 @@
       "link_match_score": 1.0
     },
     {
+      "title": "The long-lasting, multistage activity of the Astroni volcano (Campi Flegrei, Italy): new evidence from petrological and chemostratigraphic data",
+      "authors": "",
+      "journal": "The long-lasting, multistage activity of the Astroni volcano (Campi Flegrei …, 2026",
+      "year": "2026",
+      "citations": 0,
+      "doi": "",
+      "url": "",
+      "link_source": "",
+      "link_match_score": null
+    },
+    {
       "title": "On the use of unconformity surfaces as stratigraphic markers for identifying and correlating eruptive units in the Astroni pyroclastic sequence (Campi Flegrei, Italy)",
       "authors": "",
       "journal": "Abstract Volume 7a Conferenza A. Rittmann, Catania 7-9 July 2026. Misc. INGV …, 2026",
@@ -233,7 +244,7 @@
       "authors": "",
       "journal": "Bulletin of Volcanology 87 (12), 116, 2025",
       "year": "2025",
-      "citations": 2,
+      "citations": 4,
       "doi": "10.1007/s00445-025-01907-z",
       "url": "https://doi.org/10.1007/s00445-025-01907-z",
       "link_source": "crossref",
@@ -247,17 +258,6 @@
       "citations": 0,
       "doi": "10.1007/978-3-031-77693-9_12",
       "url": "https://doi.org/10.1007/978-3-031-77693-9_12",
-      "link_source": "crossref",
-      "link_match_score": 1.0
-    },
-    {
-      "title": "Assessing deposit-derived pyroclastic flow hazard at Stromboli (Italy): 2. Probabilistic invasion maps",
-      "authors": "",
-      "journal": "ESS Open Archive 2025 (0823), 2025",
-      "year": "2025",
-      "citations": 2,
-      "doi": "10.1029/2025jb032571",
-      "url": "https://doi.org/10.1029/2025jb032571",
       "link_source": "crossref",
       "link_match_score": 1.0
     }
@@ -301,7 +301,7 @@
       "authors": "",
       "journal": "Journal of Geophysical Research: Solid Earth 131 (5), e2025JB032571, 2026",
       "year": "2026",
-      "citations": 2,
+      "citations": 4,
       "doi": "10.1029/2025jb032571",
       "url": "https://doi.org/10.1029/2025jb032571",
       "link_source": "crossref",
@@ -312,7 +312,7 @@
       "authors": "",
       "journal": "Journal of Geophysical Research: Solid Earth 131 (5), e2025JB032568, 2026",
       "year": "2026",
-      "citations": 2,
+      "citations": 4,
       "doi": "10.1029/2025jb032568",
       "url": "https://doi.org/10.1029/2025jb032568",
       "link_source": "crossref",
@@ -407,6 +407,17 @@
       "link_match_score": 1.0
     },
     {
+      "title": "The long-lasting, multistage activity of the Astroni volcano (Campi Flegrei, Italy): new evidence from petrological and chemostratigraphic data",
+      "authors": "",
+      "journal": "The long-lasting, multistage activity of the Astroni volcano (Campi Flegrei …, 2026",
+      "year": "2026",
+      "citations": 0,
+      "doi": "",
+      "url": "",
+      "link_source": "",
+      "link_match_score": null
+    },
+    {
       "title": "On the use of unconformity surfaces as stratigraphic markers for identifying and correlating eruptive units in the Astroni pyroclastic sequence (Campi Flegrei, Italy)",
       "authors": "",
       "journal": "Abstract Volume 7a Conferenza A. Rittmann, Catania 7-9 July 2026. Misc. INGV …, 2026",
@@ -455,7 +466,7 @@
       "authors": "",
       "journal": "Bulletin of Volcanology 87 (12), 116, 2025",
       "year": "2025",
-      "citations": 2,
+      "citations": 4,
       "doi": "10.1007/s00445-025-01907-z",
       "url": "https://doi.org/10.1007/s00445-025-01907-z",
       "link_source": "crossref",
@@ -471,17 +482,6 @@
       "url": "https://doi.org/10.1007/978-3-031-77693-9_12",
       "link_source": "crossref",
       "link_match_score": 1.0
-    },
-    {
-      "title": "Assessing deposit-derived pyroclastic flow hazard at Stromboli (Italy): 2. Probabilistic invasion maps",
-      "authors": "",
-      "journal": "ESS Open Archive 2025 (0823), 2025",
-      "year": "2025",
-      "citations": 2,
-      "doi": "10.1029/2025jb032571",
-      "url": "https://doi.org/10.1029/2025jb032571",
-      "link_source": "crossref",
-      "link_match_score": 1.0
     }
   ],
   "publications_top_cited": [
@@ -490,7 +490,7 @@
       "authors": "",
       "journal": "Celestial Mechanics and Dynamical Astronomy 90 (1), 57-85, 2004",
       "year": "2004",
-      "citations": 389,
+      "citations": 393,
       "doi": "10.1007/s10569-004-6593-5",
       "url": "https://doi.org/10.1007/s10569-004-6593-5",
       "link_source": "crossref",
@@ -501,7 +501,7 @@
       "authors": "",
       "journal": "Journal of Volcanology and Geothermal Research 326, 2-25, 2016",
       "year": "2016",
-      "citations": 169,
+      "citations": 172,
       "doi": "10.1016/j.jvolgeores.2016.01.017",
       "url": "https://doi.org/10.1016/j.jvolgeores.2016.01.017",
       "link_source": "crossref",
@@ -512,7 +512,7 @@
       "authors": "",
       "journal": "Environmental Modelling & Software 25 (5), 633-640, 2010",
       "year": "2010",
-      "citations": 144,
+      "citations": 148,
       "doi": "10.1016/j.envsoft.2009.05.007",
       "url": "https://doi.org/10.1016/j.envsoft.2009.05.007",
       "link_source": "crossref",
@@ -523,7 +523,7 @@
       "authors": "",
       "journal": "Journal of Volcanology and Geothermal Research 178 (3), 378-396, 2008",
       "year": "2008",
-      "citations": 126,
+      "citations": 127,
       "doi": "10.1016/j.jvolgeores.2008.06.036",
       "url": "https://doi.org/10.1016/j.jvolgeores.2008.06.036",
       "link_source": "crossref",
@@ -534,9 +534,20 @@
       "authors": "",
       "journal": "Nature Communications 12 (1), 4213, 2021",
       "year": "2021",
-      "citations": 103,
+      "citations": 107,
       "doi": "10.1038/s41467-021-24420-1",
       "url": "https://doi.org/10.1038/s41467-021-24420-1",
+      "link_source": "crossref",
+      "link_match_score": 1.0
+    },
+    {
+      "title": "Explosivity of basaltic lava fountains is controlled by magma rheology, ascent rate and outgassing",
+      "authors": "",
+      "journal": "Earth and Planetary Science Letters 553, 116658, 2021",
+      "year": "2021",
+      "citations": 98,
+      "doi": "10.1016/j.epsl.2020.116658",
+      "url": "https://doi.org/10.1016/j.epsl.2020.116658",
       "link_source": "crossref",
       "link_match_score": 1.0
     },
@@ -552,22 +563,11 @@
       "link_match_score": 1.0
     },
     {
-      "title": "Explosivity of basaltic lava fountains is controlled by magma rheology, ascent rate and outgassing",
-      "authors": "",
-      "journal": "Earth and Planetary Science Letters 553, 116658, 2021",
-      "year": "2021",
-      "citations": 97,
-      "doi": "10.1016/j.epsl.2020.116658",
-      "url": "https://doi.org/10.1016/j.epsl.2020.116658",
-      "link_source": "crossref",
-      "link_match_score": 1.0
-    },
-    {
       "title": "Role of syn-eruptive plagioclase disequilibrium crystallization in basaltic magma ascent dynamics",
       "authors": "",
       "journal": "Nature communications 7 (1), 13402, 2016",
       "year": "2016",
-      "citations": 91,
+      "citations": 93,
       "doi": "10.1038/ncomms13402",
       "url": "https://doi.org/10.1038/ncomms13402",
       "link_source": "crossref",
@@ -578,7 +578,7 @@
       "authors": "",
       "journal": "Geophysical Research Letters 34 (4), 2007",
       "year": "2007",
-      "citations": 91,
+      "citations": 92,
       "doi": "10.1029/2006gl028597",
       "url": "https://doi.org/10.1029/2006gl028597",
       "link_source": "crossref",
@@ -589,7 +589,7 @@
       "authors": "",
       "journal": "Journal of Geophysical Research: Solid Earth 115 (B8), 2010",
       "year": "2010",
-      "citations": 77,
+      "citations": 80,
       "doi": "10.1029/2009jb007111",
       "url": "https://doi.org/10.1029/2009jb007111",
       "link_source": "crossref",
@@ -622,7 +622,7 @@
       "authors": "",
       "journal": "Geoscientific Model Development 12 (1), 581-595, 2019",
       "year": "2019",
-      "citations": 57,
+      "citations": 60,
       "doi": "10.5194/gmd-12-581-2019",
       "url": "https://doi.org/10.5194/gmd-12-581-2019",
       "link_source": "crossref",
@@ -633,42 +633,9 @@
       "authors": "",
       "journal": "Scientific reports 7 (1), 39620, 2017",
       "year": "2017",
-      "citations": 51,
+      "citations": 52,
       "doi": "10.1038/srep39620",
       "url": "https://doi.org/10.1038/srep39620",
-      "link_source": "crossref",
-      "link_match_score": 1.0
-    },
-    {
-      "title": "PLUME-MoM 1.0: A new integral model of volcanic plumes based on the method of moments",
-      "authors": "",
-      "journal": "Geoscientific Model Development 8 (8), 2447-2463, 2015",
-      "year": "2015",
-      "citations": 49,
-      "doi": "10.5194/gmd-8-2447-2015",
-      "url": "https://doi.org/10.5194/gmd-8-2447-2015",
-      "link_source": "crossref",
-      "link_match_score": 1.0
-    },
-    {
-      "title": "Tsunami risk management for crustal earthquakes and non-seismic sources in Italy",
-      "authors": "",
-      "journal": "La Rivista del Nuovo Cimento 44 (2), 69-144, 2021",
-      "year": "2021",
-      "citations": 48,
-      "doi": "10.1007/s40766-021-00016-9",
-      "url": "https://doi.org/10.1007/s40766-021-00016-9",
-      "link_source": "crossref",
-      "link_match_score": 1.0
-    },
-    {
-      "title": "Ensemble-based data assimilation of volcanic ash clouds from satellite observations: application to the 24 December 2018 Mt. Etna explosive eruption",
-      "authors": "",
-      "journal": "Atmosphere 11 (4), 359, 2020",
-      "year": "2020",
-      "citations": 48,
-      "doi": "10.3390/atmos11040359",
-      "url": "https://doi.org/10.3390/atmos11040359",
       "link_source": "crossref",
       "link_match_score": 1.0
     },
@@ -677,7 +644,7 @@
       "authors": "",
       "journal": "Bulletin of Volcanology 80 (12), 83, 2018",
       "year": "2018",
-      "citations": 48,
+      "citations": 50,
       "doi": "10.1007/s00445-018-1252-y",
       "url": "https://doi.org/10.1007/s00445-018-1252-y",
       "link_source": "crossref",
@@ -688,18 +655,51 @@
       "authors": "",
       "journal": "Bulletin of volcanology 78 (11), 84, 2016",
       "year": "2016",
-      "citations": 48,
+      "citations": 50,
       "doi": "",
       "url": "",
       "link_source": "",
       "link_match_score": null
     },
     {
+      "title": "PLUME-MoM 1.0: A new integral model of volcanic plumes based on the method of moments",
+      "authors": "",
+      "journal": "Geoscientific Model Development 8 (8), 2447-2463, 2015",
+      "year": "2015",
+      "citations": 50,
+      "doi": "10.5194/gmd-8-2447-2015",
+      "url": "https://doi.org/10.5194/gmd-8-2447-2015",
+      "link_source": "crossref",
+      "link_match_score": 1.0
+    },
+    {
+      "title": "Tsunami risk management for crustal earthquakes and non-seismic sources in Italy",
+      "authors": "",
+      "journal": "La Rivista del Nuovo Cimento 44 (2), 69-144, 2021",
+      "year": "2021",
+      "citations": 49,
+      "doi": "10.1007/s40766-021-00016-9",
+      "url": "https://doi.org/10.1007/s40766-021-00016-9",
+      "link_source": "crossref",
+      "link_match_score": 1.0
+    },
+    {
+      "title": "Ensemble-based data assimilation of volcanic ash clouds from satellite observations: application to the 24 December 2018 Mt. Etna explosive eruption",
+      "authors": "",
+      "journal": "Atmosphere 11 (4), 359, 2020",
+      "year": "2020",
+      "citations": 49,
+      "doi": "10.3390/atmos11040359",
+      "url": "https://doi.org/10.3390/atmos11040359",
+      "link_source": "crossref",
+      "link_match_score": 1.0
+    },
+    {
       "title": "Modeling tsunamis generated by submarine landslides at Stromboli Volcano (Aeolian Islands, Italy): A numerical benchmark study",
       "authors": "",
       "journal": "Frontiers in Earth Science 9, 628652, 2021",
       "year": "2021",
-      "citations": 45,
+      "citations": 46,
       "doi": "10.3389/feart.2021.628652",
       "url": "https://doi.org/10.3389/feart.2021.628652",
       "link_source": "crossref",
@@ -711,7 +711,7 @@
       "name": "elicipy2",
       "description": "Expert elicitation Python code",
       "url": "https://github.com/demichie/elicipy2",
-      "stars": 0,
+      "stars": 1,
       "language": "Python"
     },
     {
@@ -764,18 +764,32 @@
       "language": "Fortran"
     },
     {
-      "name": "PLUME-MoM-TSM",
-      "description": "Volcanic plume integral model based on the TSM method of moments",
-      "url": "https://github.com/demichie/PLUME-MoM-TSM",
-      "stars": 3,
-      "language": "Fortran"
-    },
-    {
       "name": "MrLavaLoba2",
       "description": "Stochastic model for lava flows",
       "url": "https://github.com/demichie/MrLavaLoba2",
       "stars": 0,
       "language": "AGS Script"
+    },
+    {
+      "name": "HP-PCCU-IMEX-AP",
+      "description": "Reference Python implementation and reproducibility benchmarks for the HP-PCCU scheme with implicit rheology and relaxation-aware asymptotic-preserving stabilization.",
+      "url": "https://github.com/demichie/HP-PCCU-IMEX-AP",
+      "stars": 0,
+      "language": "Python"
+    },
+    {
+      "name": "WR-PCCU",
+      "description": "Reproducible reference implementation, benchmark scripts, and numerical data for the wave-resolved path-conservative central-upwind (WR-PCCU) scheme for shallow mixture flows with wet/dry fronts and discontinuous topography.",
+      "url": "https://github.com/demichie/WR-PCCU",
+      "stars": 0,
+      "language": "Python"
+    },
+    {
+      "name": "PLUME-MoM-TSM",
+      "description": "Volcanic plume integral model based on the TSM method of moments",
+      "url": "https://github.com/demichie/PLUME-MoM-TSM",
+      "stars": 3,
+      "language": "Fortran"
     },
     {
       "name": "MECHANICS_OF_GEOPHYSICAL_FLUIDS.",
@@ -1039,10 +1053,10 @@
   ],
   "link_enrichment": {
     "unique_publications": 40,
-    "cached_links_reused": 35,
-    "lookups_attempted": 5,
+    "cached_links_reused": 34,
+    "lookups_attempted": 6,
     "new_links_found": 0,
-    "unresolved": 5,
+    "unresolved": 6,
     "openalex_enabled": false
   },
   "sync_status": {
