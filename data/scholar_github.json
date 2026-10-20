@@ -1,8 +1,8 @@
 {
-  "last_updated": "2026-10-12 06:56 UTC",
-  "scholar_recent_last_successful_update": "2026-10-12 06:56 UTC",
-  "scholar_top_cited_last_successful_update": "2026-10-12 06:56 UTC",
-  "github_last_successful_update": "2026-10-12 06:56 UTC",
+  "last_updated": "2026-10-20 17:07 UTC",
+  "scholar_recent_last_successful_update": "2026-10-20 17:07 UTC",
+  "scholar_top_cited_last_successful_update": "2026-10-20 17:07 UTC",
+  "github_last_successful_update": "2026-10-20 17:07 UTC",
   "scholar_profile": {
     "name": "M de' Michieli Vitturi",
     "affiliation": "Senior Researcher, Istituto Nazionale di Geofisica e Vulcanologia",
@@ -28,17 +28,17 @@
       "2019": 191,
       "2020": 220,
       "2021": 272,
-      "2022": 340,
+      "2022": 341,
       "2023": 277,
       "2024": 331,
       "2025": 479,
-      "2026": 382
+      "2026": 396
     }
   },
   "metrics": {
-    "total_citations": 3446,
+    "total_citations": 3461,
     "h_index": 32,
-    "i10_index": 75
+    "i10_index": 77
   },
   "publications": [
     {
@@ -490,7 +490,7 @@
       "authors": "",
       "journal": "Celestial Mechanics and Dynamical Astronomy 90 (1), 57-85, 2004",
       "year": "2004",
-      "citations": 393,
+      "citations": 395,
       "doi": "10.1007/s10569-004-6593-5",
       "url": "https://doi.org/10.1007/s10569-004-6593-5",
       "link_source": "crossref",
@@ -534,7 +534,7 @@
       "authors": "",
       "journal": "Nature Communications 12 (1), 4213, 2021",
       "year": "2021",
-      "citations": 107,
+      "citations": 108,
       "doi": "10.1038/s41467-021-24420-1",
       "url": "https://doi.org/10.1038/s41467-021-24420-1",
       "link_source": "crossref",
@@ -545,7 +545,7 @@
       "authors": "",
       "journal": "Earth and Planetary Science Letters 553, 116658, 2021",
       "year": "2021",
-      "citations": 98,
+      "citations": 99,
       "doi": "10.1016/j.epsl.2020.116658",
       "url": "https://doi.org/10.1016/j.epsl.2020.116658",
       "link_source": "crossref",
@@ -567,7 +567,7 @@
       "authors": "",
       "journal": "Nature communications 7 (1), 13402, 2016",
       "year": "2016",
-      "citations": 93,
+      "citations": 94,
       "doi": "10.1038/ncomms13402",
       "url": "https://doi.org/10.1038/ncomms13402",
       "link_source": "crossref",
@@ -611,7 +611,7 @@
       "authors": "",
       "journal": "Earth and Planetary Science Letters 272 (3-4), 567-578, 2008",
       "year": "2008",
-      "citations": 70,
+      "citations": 71,
       "doi": "10.1016/j.epsl.2008.05.025",
       "url": "https://doi.org/10.1016/j.epsl.2008.05.025",
       "link_source": "crossref",
