@@ -1,8 +1,8 @@
 {
-  "last_updated": "2026-10-26 04:30 UTC",
+  "last_updated": "2026-11-02 05:55 UTC",
   "scholar_recent_last_successful_update": "2026-10-20 17:07 UTC",
   "scholar_top_cited_last_successful_update": "2026-10-20 17:07 UTC",
-  "github_last_successful_update": "2026-10-26 04:30 UTC",
+  "github_last_successful_update": "2026-11-02 05:55 UTC",
   "scholar_profile": {
     "name": "M de' Michieli Vitturi",
     "affiliation": "Senior Researcher, Istituto Nazionale di Geofisica e Vulcanologia",
@@ -1062,7 +1062,7 @@
   "sync_status": {
     "scholar_recent_ok": false,
     "scholar_recent_source": "free_proxy",
-    "scholar_recent_error": "MaxTriesExceededException: Cannot Fetch from Google Scholar.; MaxTriesExceededException: Cannot Fetch from Google Scholar.",
+    "scholar_recent_error": "AttributeError: 'NoneType' object has no attribute 'get'; MaxTriesExceededException: Cannot Fetch from Google Scholar.",
     "scholar_top_cited_ok": false,
     "scholar_top_cited_source": "free_proxy",
     "scholar_top_cited_error": "MaxTriesExceededException: Cannot Fetch from Google Scholar.; MaxTriesExceededException: Cannot Fetch from Google Scholar.",
