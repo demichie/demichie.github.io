@@ -1,8 +1,8 @@
 {
-  "last_updated": "2026-11-16 06:06 UTC",
-  "scholar_recent_last_successful_update": "2026-11-09 05:58 UTC",
-  "scholar_top_cited_last_successful_update": "2026-11-09 05:58 UTC",
-  "github_last_successful_update": "2026-11-16 06:06 UTC",
+  "last_updated": "2026-11-23 07:16 UTC",
+  "scholar_recent_last_successful_update": "2026-11-23 07:16 UTC",
+  "scholar_top_cited_last_successful_update": "2026-11-23 07:16 UTC",
+  "github_last_successful_update": "2026-11-23 07:16 UTC",
   "scholar_profile": {
     "name": "M de' Michieli Vitturi",
     "affiliation": "Senior Researcher, Istituto Nazionale di Geofisica e Vulcanologia",
@@ -26,19 +26,19 @@
       "2017": 151,
       "2018": 183,
       "2019": 191,
-      "2020": 220,
-      "2021": 272,
+      "2020": 219,
+      "2021": 273,
       "2022": 341,
       "2023": 277,
-      "2024": 331,
-      "2025": 482,
-      "2026": 418
+      "2024": 333,
+      "2025": 483,
+      "2026": 433
     }
   },
   "metrics": {
-    "total_citations": 3487,
+    "total_citations": 3505,
     "h_index": 32,
-    "i10_index": 77
+    "i10_index": 78
   },
   "publications": [
     {
@@ -68,7 +68,7 @@
       "authors": "",
       "journal": "Bulletin of Volcanology 88 (6), 65, 2026",
       "year": "2026",
-      "citations": 0,
+      "citations": 1,
       "doi": "10.1007/s00445-026-01988-4",
       "url": "https://doi.org/10.1007/s00445-026-01988-4",
       "link_source": "crossref",
@@ -79,7 +79,7 @@
       "authors": "",
       "journal": "Journal of Geophysical Research: Solid Earth 131 (5), e2025JB032571, 2026",
       "year": "2026",
-      "citations": 5,
+      "citations": 6,
       "doi": "10.1029/2025jb032571",
       "url": "https://doi.org/10.1029/2025jb032571",
       "link_source": "crossref",
@@ -290,7 +290,7 @@
       "authors": "",
       "journal": "Bulletin of Volcanology 88 (6), 65, 2026",
       "year": "2026",
-      "citations": 0,
+      "citations": 1,
       "doi": "10.1007/s00445-026-01988-4",
       "url": "https://doi.org/10.1007/s00445-026-01988-4",
       "link_source": "crossref",
@@ -301,7 +301,7 @@
       "authors": "",
       "journal": "Journal of Geophysical Research: Solid Earth 131 (5), e2025JB032571, 2026",
       "year": "2026",
-      "citations": 5,
+      "citations": 6,
       "doi": "10.1029/2025jb032571",
       "url": "https://doi.org/10.1029/2025jb032571",
       "link_source": "crossref",
@@ -490,7 +490,7 @@
       "authors": "",
       "journal": "Celestial Mechanics and Dynamical Astronomy 90 (1), 57-85, 2004",
       "year": "2004",
-      "citations": 400,
+      "citations": 403,
       "doi": "10.1007/s10569-004-6593-5",
       "url": "https://doi.org/10.1007/s10569-004-6593-5",
       "link_source": "crossref",
@@ -501,7 +501,7 @@
       "authors": "",
       "journal": "Journal of Volcanology and Geothermal Research 326, 2-25, 2016",
       "year": "2016",
-      "citations": 172,
+      "citations": 173,
       "doi": "10.1016/j.jvolgeores.2016.01.017",
       "url": "https://doi.org/10.1016/j.jvolgeores.2016.01.017",
       "link_source": "crossref",
@@ -545,7 +545,7 @@
       "authors": "",
       "journal": "Earth and Planetary Science Letters 553, 116658, 2021",
       "year": "2021",
-      "citations": 99,
+      "citations": 101,
       "doi": "10.1016/j.epsl.2020.116658",
       "url": "https://doi.org/10.1016/j.epsl.2020.116658",
       "link_source": "crossref",
@@ -589,7 +589,7 @@
       "authors": "",
       "journal": "Journal of Geophysical Research: Solid Earth 115 (B8), 2010",
       "year": "2010",
-      "citations": 81,
+      "citations": 82,
       "doi": "10.1029/2009jb007111",
       "url": "https://doi.org/10.1029/2009jb007111",
       "link_source": "crossref",
@@ -629,6 +629,17 @@
       "link_match_score": 1.0
     },
     {
+      "title": "Dynamics of shallow hydrothermal eruptions: new insights from Vulcano’s Breccia di Commenda eruption",
+      "authors": "",
+      "journal": "Bulletin of Volcanology 80 (12), 83, 2018",
+      "year": "2018",
+      "citations": 52,
+      "doi": "10.1007/s00445-018-1252-y",
+      "url": "https://doi.org/10.1007/s00445-018-1252-y",
+      "link_source": "crossref",
+      "link_match_score": 1.0
+    },
+    {
       "title": "Effect of particle volume fraction on the settling velocity of volcanic ash particles: insights from joint experimental and numerical simulations",
       "authors": "",
       "journal": "Scientific reports 7 (1), 39620, 2017",
@@ -640,13 +651,13 @@
       "link_match_score": 1.0
     },
     {
-      "title": "Dynamics of shallow hydrothermal eruptions: new insights from Vulcano’s Breccia di Commenda eruption",
+      "title": "Ensemble-based data assimilation of volcanic ash clouds from satellite observations: application to the 24 December 2018 Mt. Etna explosive eruption",
       "authors": "",
-      "journal": "Bulletin of Volcanology 80 (12), 83, 2018",
-      "year": "2018",
+      "journal": "Atmosphere 11 (4), 359, 2020",
+      "year": "2020",
       "citations": 51,
-      "doi": "10.1007/s00445-018-1252-y",
-      "url": "https://doi.org/10.1007/s00445-018-1252-y",
+      "doi": "10.3390/atmos11040359",
+      "url": "https://doi.org/10.3390/atmos11040359",
       "link_source": "crossref",
       "link_match_score": 1.0
     },
@@ -684,17 +695,6 @@
       "link_match_score": 1.0
     },
     {
-      "title": "Ensemble-based data assimilation of volcanic ash clouds from satellite observations: application to the 24 December 2018 Mt. Etna explosive eruption",
-      "authors": "",
-      "journal": "Atmosphere 11 (4), 359, 2020",
-      "year": "2020",
-      "citations": 49,
-      "doi": "10.3390/atmos11040359",
-      "url": "https://doi.org/10.3390/atmos11040359",
-      "link_source": "crossref",
-      "link_match_score": 1.0
-    },
-    {
       "title": "Modeling tsunamis generated by submarine landslides at Stromboli Volcano (Aeolian Islands, Italy): A numerical benchmark study",
       "authors": "",
       "journal": "Frontiers in Earth Science 9, 628652, 2021",
@@ -707,6 +707,13 @@
     }
   ],
   "repositories": [
+    {
+      "name": "IMEX_SfloW2D_dev",
+      "description": "No description provided.",
+      "url": "https://github.com/demichie/IMEX_SfloW2D_dev",
+      "stars": 0,
+      "language": "Fortran"
+    },
     {
       "name": "elicipy2",
       "description": "Expert elicitation Python code",
@@ -755,13 +762,6 @@
       "url": "https://github.com/demichie/OpenPDAC-12",
       "stars": 3,
       "language": "C++"
-    },
-    {
-      "name": "IMEX_SfloW2D_dev",
-      "description": "No description provided.",
-      "url": "https://github.com/demichie/IMEX_SfloW2D_dev",
-      "stars": 0,
-      "language": "Fortran"
     },
     {
       "name": "MrLavaLoba2",
@@ -1060,12 +1060,12 @@
     "openalex_enabled": false
   },
   "sync_status": {
-    "scholar_recent_ok": false,
-    "scholar_recent_source": "free_proxy_setup_failed",
-    "scholar_recent_error": "MaxTriesExceededException: Cannot Fetch from Google Scholar.; InvalidURL: Invalid port: '8090:HTTP'",
-    "scholar_top_cited_ok": false,
-    "scholar_top_cited_source": "free_proxy_setup_failed",
-    "scholar_top_cited_error": "MaxTriesExceededException: Cannot Fetch from Google Scholar.; InvalidURL: Invalid port: '48128:HTTP'",
+    "scholar_recent_ok": true,
+    "scholar_recent_source": "direct",
+    "scholar_recent_error": null,
+    "scholar_top_cited_ok": true,
+    "scholar_top_cited_source": "direct",
+    "scholar_top_cited_error": null,
     "publication_links_ok": true,
     "publication_links_error": null,
     "github_ok": true,
